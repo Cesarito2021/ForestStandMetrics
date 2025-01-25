@@ -1,7 +1,31 @@
 
-
-
-
+#' CI_plot_1000
+#'
+#' Calculate the Structural Diversity Index (CI) for a given dataset of trees.
+#'
+#' This function computes the CI based on tree height, basal area, and species composition
+#' from a specified plot area. It is useful for ecologists and forest managers assessing
+#' the diversity and structural complexity of forest stands.
+#'
+#' @param data A data frame containing tree measurements.
+#' @param th_col A string representing the name of the column for tree heights.
+#' @param ba_col A string representing the name of the column for basal area.
+#' @param specie_col A string representing the name of the column for tree species.
+#' @param plot_area A numeric value representing the area of the plot in square meters.
+#'
+#' @return A numeric value representing the Structural Diversity Index (CI).
+#'
+#' @examples
+#' # Example usage:
+#'data <- as.data.frame(list(th = c(15, 20, 25, 10, 30),
+#'                           ba = c(5, 10, 15, 5, 20),
+#'                           specie = c("fir", "european beech", "fir", "european beech", "european beech")))
+#'
+#'results<- CI_plot_1000(data, "th", "ba", "specie", plot_area = 100)
+#'
+#'print(results)
+#'
+#' @export
 CI_plot_1000 <- function(data, th_col, ba_col, specie_col, plot_area) {
   # Select relevant columns and rename
   input <- data %>% dplyr::select(any_of(c(th_col, ba_col, specie_col)))
@@ -30,8 +54,8 @@ CI_plot_1000 <- function(data, th_col, ba_col, specie_col, plot_area) {
 #'
 #' This function calculates the Stand Density Index (SDI) for a forest plot based on tree density
 #' and quadratic mean diameter (QMD). The SDI is commonly used to assess stand density in forest
-#' management, and it can be calculated for different forest types, such as even-aged (coetanei) or
-#' uneven-aged (disetanei) stands.
+#' management, and it can be calculated for different forest types, such as even-aged or
+#' uneven-aged stands.
 #'
 #' The formula for SDI is:
 #' \deqn{SDI = (N * (QMD^b))}, where:
@@ -48,8 +72,10 @@ CI_plot_1000 <- function(data, th_col, ba_col, specie_col, plot_area) {
 #' @param b A numeric value for the scaling exponent (default is 1.605). This parameter adjusts the relationship
 #'        between tree density and diameter.
 #' @param type A character string specifying the type of forest stand. Options are:
-#'        \item "coetanei" for even-aged stands (default),
-#'        \item "disetanei" for uneven-aged stands.
+#'        \itemize{
+#'          \item "even-aged" for even-aged stands (default),
+#'          \item "uneven-aged" for uneven-aged stands.
+#'        }
 #'
 #' @return A numeric value representing the calculated Stand Density Index (SDI) for the given forest stand.
 #'
@@ -60,89 +86,29 @@ CI_plot_1000 <- function(data, th_col, ba_col, specie_col, plot_area) {
 #'
 #' N2 <- 300
 #' G2 <- 30
-#' calculate_SDI(N2, G2, type = "disetanei")  # for uneven-aged stand
+#' calculate_SDI(N2, G2, type = "uneven-aged")  # for uneven-aged stand
 #'
 #' @export
-
-
-calculate_SDI <- function(N, G, b = 1.605, type = "coetanei") {
+calculate_SDI <- function(N, G, b = 1.605, type = "even-aged") {
   # Helper function to calculate quadratic mean diameter
   qmd_ha = function(ba, tpa) {
     qmd = sqrt((ba / tpa) / 0.00007854)
     return(qmd)
   }
 
-  if (type == "coetanei") {
+  if (type == "even-aged") {
     # Calculate the quadratic mean diameter for even-aged stands
     dm = qmd_ha(G, N)
     SDI <- N * (dm / 25)^b
-  } else if (type == "disetanei") {
+  } else if (type == "uneven-aged") {
     # Calculate SDI for uneven-aged stands
     SDI <- sum(N * (qmd_ha(G, N) / 25)^b)
   } else {
-    stop("Invalid stand type. Use 'coetanei' for even-aged or 'disetanei' for uneven-aged stands.")
+    stop("Invalid stand type. Use 'even-aged' for even-aged or 'uneven-aged' for uneven-aged stands.")
   }
 
   return(SDI)
 }
-
-
-
-#' Calculate the Shannon-Wiener Index for a Continuous Variable
-#'
-#' This function calculates the Shannon-Wiener index (a measure of diversity) for a continuous variable.
-#' The continuous variable is discretized into classes based on the specified `class_width`, and the Shannon-Wiener index
-#' is computed for the resulting frequency distribution. The Shannon-Wiener index is commonly used in ecology and
-#' environmental studies to assess the diversity of a population or ecosystem.
-#'
-#' @param data A data frame containing the data to analyze.
-#' @param variable The column name (as a string) containing the continuous variable to analyze.
-#' @param class_width The width of the classes for discretizing the continuous variable.
-#' @param log_base The base of the logarithm used in the calculation of the Shannon-Wiener index. The default is natural logarithm (e = exp(1)).
-#' @param normalize Logical value indicating whether to normalize the index (default is TRUE). If TRUE, the index will be normalized by dividing by the natural logarithm of the number of classes.
-#'
-#' @return The Shannon-Wiener index for the discretized variable, as a numeric value.
-#'
-#' @details The Shannon-Wiener index is calculated using the formula:
-#' \deqn{H' = - \sum p_i \log_b(p_i)},
-#' where \emph{p_i} is the proportion of observations in the ith class, and \emph{b} is the logarithmic base.
-#' The index is normalized by dividing by \(\log_b(C)\), where \(C\) is the number of classes.
-#'
-#' @examples
-#' # Example usage
-#' data <- data.frame(variable = c(1.5, 2.3, 3.1, 1.8, 2.5, 3.3))
-#' calc_TDD_THD(data, variable = "variable", class_width = 0.5)
-#'
-#' @export
-
-
-calc_TDD_THD <- function(data, variable, class_width, log_base = exp(1), normalize = TRUE) {
-
-  # Create classes based on the specified width
-  min_value <- floor(min(data[[variable]]) / class_width) * class_width
-  max_value <- ceiling(max(data[[variable]]) / class_width) * class_width
-  classes <- seq(min_value, max_value, by = class_width)
-
-  # Count the number of individuals in each class
-  counts <- table(cut(data[[variable]], breaks = classes, include.lowest = TRUE))
-
-  # Calculate relative frequencies
-  probs <- counts / sum(counts)
-
-  # Remove classes with zero frequency to avoid issues with log(0)
-  probs <- probs[probs > 0]
-
-  # Calculate the Shannon-Wiener index
-  index <- -sum(probs * log(probs) / log(log_base))
-
-  # Normalize if specified
-  if (normalize) {
-    index <- index / log(length(classes) - 1)
-  }
-
-  return(index)
-}
-
 
 
 #' Calculate the Vertical Evenness Index (VEm) for Forest Plots
@@ -153,8 +119,8 @@ calc_TDD_THD <- function(data, variable, class_width, log_base = exp(1), normali
 #'
 #' @param data A data frame containing tree data with height and basal area information.
 #' The data should include at least one column for tree heights and one for basal area values.
-#' @param height_col A character string specifying the column name containing tree heights (m).
-#' @param basal_area_col A character string specifying the column name containing basal area values (m²).
+#' @param th_col A character string specifying the column name containing tree heights (m).
+#' @param ba_col A character string specifying the column name containing basal area values (m²).
 #'
 #' @return A numeric value representing the Vertical Evenness Index (VEm). Higher values indicate
 #' a more evenly distributed vertical biomass structure, while lower values indicate a more concentrated
@@ -168,30 +134,33 @@ calc_TDD_THD <- function(data, variable, class_width, log_base = exp(1), normali
 #'
 #' @examples
 #' # Example usage
-#' data <- data.frame(height = c(10, 15, 20, 25), basal_area = c(0.2, 0.5, 0.7, 1.0))
-#' calc_VEm(data, height_col = "height", basal_area_col = "basal_area")
+#' data <- data.frame(th = c(10, 15, 20, 25), ba = c(0.2, 0.5, 0.7, 1.0))
+#' results <- calc_VEm(data, th_col = "th", ba_col = "ba")
 #'
+#' print(results)
+#'
+#' @import vegan
 #' @export
 
-calc_VEm <- function(data, height_col, basal_area_col) {
+calc_VEm <- function(data, th_col, ba_col) {
 
   # Step 1: Find the maximum height to set thresholds for strata
-  max_height <- max(data[[height_col]], na.rm = TRUE)
+  max_height <- max(data[[th_col]], na.rm = TRUE)
   thresholds <- c(0.2, 0.5, 0.8) * max_height
 
   # Step 2: Assign each tree to a layer based on height
   data <- data %>%
     mutate(strato = case_when(
-      .data[[height_col]] <= thresholds[1] ~ "s1",
-      .data[[height_col]] <= thresholds[2] & .data[[height_col]] > thresholds[1] ~ "s2",
-      .data[[height_col]] <= thresholds[3] & .data[[height_col]] > thresholds[2] ~ "s3",
-      .data[[height_col]] > thresholds[3] ~ "s4"
+      .data[[th_col]] <= thresholds[1] ~ "s1",
+      .data[[th_col]] <= thresholds[2] & .data[[th_col]] > thresholds[1] ~ "s2",
+      .data[[th_col]] <= thresholds[3] & .data[[th_col]] > thresholds[2] ~ "s3",
+      .data[[th_col]] > thresholds[3] ~ "s4"
     ))
 
   # Step 3: Calculate the total basal area for each stratum
   basal_area_by_stratum <- data %>%
     group_by(strato) %>%
-    summarize(total_basal_area = sum(.data[[basal_area_col]], na.rm = TRUE))
+    summarize(total_basal_area = sum(.data[[ba_col]], na.rm = TRUE))
 
   # Step 4: Calculate the proportion of each stratum
   total_basal_area <- sum(basal_area_by_stratum$total_basal_area, na.rm = TRUE)
@@ -214,8 +183,7 @@ calc_VEm <- function(data, height_col, basal_area_col) {
 #' including Simpson and Shannon diversity indices for diameter at breast height (dbh),
 #' tree height (th), and species richness. It also computes the Gini index for basal area and
 #' diameter, the coefficient of variation for basal area, and the Vertical Evenness Index (VEm).
-#' Additionally, the function calculates the Stand Density Index (SDI), Tree Density Distribution (TDD),
-#' and Tree Height Distribution (THD).
+#' Additionally, the function calculates the Stand Density Index (SDI).
 #'
 #' @param data A data frame containing the forest inventory data. It should include columns for
 #'   diameter at breast height (dbh), tree height (th), basal area (ba), and species.
@@ -234,8 +202,6 @@ calc_VEm <- function(data, height_col, basal_area_col) {
 #'   - Coefficient of variation for basal area
 #'   - Vertical Evenness Index (VEm)
 #'   - Stand Density Index (SDI)
-#'   - Tree Density Distribution (TDD)
-#'   - Tree Height Distribution (THD)
 #'
 #' @details This function performs multiple calculations on a given forest inventory dataset to
 #'   assess forest structural complexity and species diversity. The calculated indices help in
@@ -244,11 +210,25 @@ calc_VEm <- function(data, height_col, basal_area_col) {
 #'
 #' @examples
 #' # Example usage:
-#' result <- ForStrSpecDiv(data = forest_data, dbh_col = "dbh", th_col = "th",
-#'                         ba_col = "ba", specie_col = "species", plot_area = 10000)
+#' data <- as.data.frame(list(
+#'   dbh_col = c(10, 15, 18, 30, 35, 45),     # Diameter at breast height (DBH) in cm
+#'   th_col = c(15, 18, 19, 25, 26, 32),      # Tree height in meters
+#'   ba_col = c(0.007854, 0.017671, 0.025446, 0.070685, 0.096211, 0.159154),  # Basal Area (calculated)
+#'   specie_col = c("norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce")
+#' ))
+#' plot_area = 530
+#' results <- ForStrSpecDiv(data = data,
+#'                         dbh_col = "dbh_col",
+#'                         th_col = "th_col",
+#'                         ba_col = "ba_col",
+#'                         specie_col = "specie_col",
+#'                         plot_area = plot_area)
 #'
+#' print(results)
+#'
+#' @import vegan
+#' @import DescTools
 #' @export
-
 
 ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) {
 
@@ -286,11 +266,7 @@ ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) 
   Ntree <- round(nrow(input) * (10000 / plot_area))  # Trees per hectare
 
   # Calculate Stand Density Index (SDI)
-  SDI <- calculate_SDI(N = Ntree, G = total_ba, b = 1.605, type = "coetanei")
-
-  # Tree Density Distribution (TDD) and Tree Height Distribution (THD)
-  TDD <- calc_TDD_THD(input, "dbh", 5)
-  THD <- calc_TDD_THD(input, "th", 2)
+  SDI <- calculate_SDI(N = Ntree, G = total_ba, b = 1.605, type = "even-aged")
 
   # Vertical Evenness Index (VEm)
   VEm <- calc_VEm(input, "th", "ba")
@@ -300,9 +276,9 @@ ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) 
 
   # Combine results into a summary vector
   res <- cbind(simpson_dbh, shannon_dbh, sd_dbh, Gini_dbh, Gini_G, CV_G, sd_th, shannon_th, CI_1000,
-               shannon_specie, simpson_specie, SDI, TDD, THD, VEm, VarDH)
+               shannon_specie, simpson_specie, SDI, VEm, VarDH)
   colnames(res) <- c("SI_dbh", "SH_dbh", "SD_dbh", "GI_dbh", "GI_ba", "CV_ba", "SD_th", "SH_th",
-                     "CI_1000", "SH_sp", "SI_sp", "SDI", "TDD", "THD", "VEm", "VarDH")
+                     "CI_1000", "SH_sp", "SI_sp", "SDI", "VEm", "VarDH")
 
   # Summarize input data for mean dbh, mean th, total basal area, and number of species
   input_sum <- input %>% summarise(Mean_dbh = mean(dbh), Mean_th = mean(th), Sum_ba = sum(ba),
@@ -354,14 +330,34 @@ ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) 
 #'   the area of the plot provided in `plot_area`. The function provides summaries at both the plot level and the forest management intervention level.
 #'
 #' @examples
-#' \dontrun{
-#' data <- read.csv("forest_inventory.csv")
-#' result <- Apply_ForStrSpecDiv(data, "Yes", "Thinning", "Yes", "plot_id", "DBH", "Height", "Species", 10000)
-#' }
+#' # Example usage with test data:
+#' data <- as.data.frame(list(
+#'   ForManInt = c("Intervention_A", "Intervention_A", "Intervention_A", "Intervention_B", "Intervention_B", "Intervention_B"),
+#'   plot_col = c("Plot_1", "Plot_1", "Plot_1", "Plot_2", "Plot_2", "Plot_2"),
+#'   dbh_col = c(10, 15, 18, 30, 35, 45),    # Diameter at breast height (DBH) in cm
+#'   th_col = c(15, 18, 19, 25, 26, 32),     # Tree height in meters
+#'   specie_col = c("norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce")
+#' ))
+#' plot_area = 530
+#'
+#' results <- Apply_ForStrSpecDiv(
+#'   data = data,
+#'   ForManInt_option = "Yes",
+#'   ForManInt = "ForManInt",
+#'   plot_option = "Yes",
+#'   plot_col = "plot_col",
+#'   dbh_col = "dbh_col",
+#'   th_col = "th_col",
+#'   specie_col = "specie_col",
+#'   plot_area = plot_area
+#' )
+#' # View the calculated results
+#' print(results)
 #'
 #' @import dplyr
 #' @importFrom dplyr %>%
 #' @export
+
 
 Apply_ForStrSpecDiv <- function(data,ForManInt_option, ForManInt,plot_option, plot_col, dbh_col,th_col,specie_col,plot_area) {
   # check if the ForManInt are included in the dataset

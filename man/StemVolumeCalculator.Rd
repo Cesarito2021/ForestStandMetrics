@@ -25,6 +25,7 @@ species, and the function supports a variety of common tree species. It is desig
 in forestry analysis for estimating biomass and carbon storage potential.
 }
 \examples{
-data <- data.frame(DBH = c(30, 25, 45), Height = c(15, 18, 20), Species = c("silver fir", "cypress", "oak"))
-StemVolumeCalculator(data, "DBH", "Height", "Species")
+data <- data.frame(DBH = c(30), Height = c(15), Species = c("silver fir"))
+results <- StemVolumeCalculator(data, "DBH", "Height", "Species")
+print(results)
 }

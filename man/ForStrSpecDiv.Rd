@@ -31,8 +31,6 @@ The returned data frame includes:
 \item Coefficient of variation for basal area
 \item Vertical Evenness Index (VEm)
 \item Stand Density Index (SDI)
-\item Tree Density Distribution (TDD)
-\item Tree Height Distribution (THD)
 }
 }
 \description{
@@ -40,8 +38,7 @@ This function calculates various forest diversity indices and tree structural me
 including Simpson and Shannon diversity indices for diameter at breast height (dbh),
 tree height (th), and species richness. It also computes the Gini index for basal area and
 diameter, the coefficient of variation for basal area, and the Vertical Evenness Index (VEm).
-Additionally, the function calculates the Stand Density Index (SDI), Tree Density Distribution (TDD),
-and Tree Height Distribution (THD).
+Additionally, the function calculates the Stand Density Index (SDI).
 }
 \details{
 This function performs multiple calculations on a given forest inventory dataset to
@@ -51,7 +48,20 @@ These metrics are useful for forest management, ecological assessments, and biod
 }
 \examples{
 # Example usage:
-result <- ForStrSpecDiv(data = forest_data, dbh_col = "dbh", th_col = "th",
-                        ba_col = "ba", specie_col = "species", plot_area = 10000)
+data <- as.data.frame(list(
+  dbh_col = c(10, 15, 18, 30, 35, 45),     # Diameter at breast height (DBH) in cm
+  th_col = c(15, 18, 19, 25, 26, 32),      # Tree height in meters
+  ba_col = c(0.007854, 0.017671, 0.025446, 0.070685, 0.096211, 0.159154),  # Basal Area (calculated)
+  specie_col = c("norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce")
+))
+plot_area = 530
+results <- ForStrSpecDiv(data = data,
+                        dbh_col = "dbh_col",
+                        th_col = "th_col",
+                        ba_col = "ba_col",
+                        specie_col = "specie_col",
+                        plot_area = plot_area)
+
+print(results)
 
 }

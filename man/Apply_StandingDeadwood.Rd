@@ -64,9 +64,51 @@ while Snag volume requires additional parameters like L_tot and Dhalf. The funct
 forest management intervention based on the user-specified options.
 }
 \examples{
-\dontrun{
-data <- read.csv("forest_inventory.csv")
-result <- Apply_StandingDeadwood(data, "Yes", "Thinning", "Yes", "plot_id", "sdt", "L_tot", "Dhalf", "TH_tot", "DBH", 10000)
-}
+# Example 1: Using the "sdt" option
+data_sdt <- as.data.frame(list(
+  ForManInt = c("Intervention_A","Intervention_A","Intervention_A","Intervention_B","Intervention_B","Intervention_B"),
+  plot_col = c("Plot_1", "Plot_1","Plot_1","Plot_2","Plot_2","Plot_2"),
+  TH_tot_col = c(15, 18, 19, 25, 26, 32),  # Tree height in meters
+  DBH_col = c(10, 15, 18, 30, 35, 45)     # Diameter at breast height (DBH) in cm
+))
+plot_area <- 530
+SDT_SNAG_option <- "sdt"
+results_sdt <- Apply_StandingDeadwood(
+  data = data_sdt,
+  ForManInt_option = "Yes",
+  ForManInt = "ForManInt",
+  plot_option = "Yes",
+  plot_col = "plot_col",
+  SDT_SNAG_option = SDT_SNAG_option,
+  L_tot_col = NULL,
+  Dhalf_col = NULL,
+  TH_tot_col = "TH_tot_col",
+  DBH_col = "DBH_col",
+  plot_area = plot_area
+)
+print(results_sdt)
 
+# Example 2: Using the "snag" option
+data_snag <- as.data.frame(list(
+  ForManInt = c("Intervention_A","Intervention_A","Intervention_A","Intervention_B","Intervention_B","Intervention_B"),
+  plot_col = c("Plot_1", "Plot_1","Plot_1","Plot_2","Plot_2","Plot_2"),
+  L_tot_col = c(15, 18, 19, 25, 26, 32),  # Total length in meters
+  Dhalf_col = c(10, 15, 18, 30, 35, 45)  # Half diameter in cm
+))
+plot_area <- 530
+SDT_SNAG_option <- "snag"
+results_snag <-  Apply_StandingDeadwood(
+  data = data_snag,
+  ForManInt_option = "Yes",
+  ForManInt = "ForManInt",
+  plot_option = "Yes",
+  plot_col = "plot_col",
+  SDT_SNAG_option = SDT_SNAG_option,
+  L_tot_col = "L_tot_col",
+  Dhalf_col = "Dhalf_col",
+  TH_tot_col = NULL,
+  DBH_col = NULL,
+  plot_area = plot_area
+)
+print(results_snag)
 }

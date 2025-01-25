@@ -58,9 +58,28 @@ The volume is computed for each tree, and results can be summarized by plot and/
 The function also provides per-hectare volume estimates, depending on the plot size specified.
 }
 \examples{
-\dontrun{
-data <- read.csv("forest_inventory.csv")
-result <- Apply_All_Deadwood(data, "Yes", "Thinning", "Yes", "plot_id", "Height", "D_max", "D_min", 10000)
-}
+# Example: Applying deadwood calculations
+data <- as.data.frame(list(
+  ForManInt = c("Intervention_A","Intervention_A","Intervention_A","Intervention_B","Intervention_B","Intervention_B"),
+  plot_col = c("Plot_1", "Plot_1","Plot_1","Plot_2","Plot_2","Plot_2"),
+  H_Len_col = c(5.5, 6.5, 4.5, 7.5, 8.5, 7),    # Deadwood length in meters
+  D_max_col = c(15, 16, 14, 19, 22, 25),        # Maximum diameter in cm
+  D_min_col = c(10.5, 11.5, 12, 10, 12, 15)     # Minimum diameter in cm
+))
 
+plot_area <- 530
+
+results <- Apply_All_Deadwood(
+  data = data,
+  ForManInt_option = "Yes",
+  ForManInt = "ForManInt",
+  plot_option = "Yes",
+  plot_col = "plot_col",
+  H_Len_col = "H_Len_col",
+  D_max_col = "D_max_col",
+  D_min_col = "D_min_col",
+  plot_area = plot_area
+)
+
+print(results)
 }

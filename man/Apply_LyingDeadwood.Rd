@@ -73,9 +73,50 @@ calculation for LDT or CWD depends on the user-specified option (\code{LDT_CWD_o
 The volume per hectare is calculated by considering the area of the plot.
 }
 \examples{
-\dontrun{
-data <- read.csv("forest_inventory.csv")
-result <- Apply_LyingDeadwood(data, "Yes", "Thinning", "Yes", "plot_id", "ldt", "L_tot", "Dhalf", "TH_tot", "DBH", 10000)
-}
+# Example 1: Using "ldt" option
+data_ldt <- as.data.frame(list(
+  ForManInt = c("Intervention_A","Intervention_A","Intervention_A","Intervention_B","Intervention_B","Intervention_B"),
+  plot_col = c("Plot_1", "Plot_1","Plot_1","Plot_2","Plot_2","Plot_2"),
+  TH_tot_col= c(15, 18,19,25,26,32),     # Tree height in meters
+  DBH_col = c(10,15,18,30,35,45)         # Diameter at breast height (DBH) in cm
+))
 
+plot_area <- 530
+LDT_CWD_option <- "ldt"
+
+results_ldt  <- Apply_LyingDeadwood(data = data_ldt,
+                    ForManInt_option = "Yes",
+                    ForManInt = "ForManInt",
+                    plot_option = "Yes",
+                    plot_col = "plot_col",
+                    LDT_CWD_option = LDT_CWD_option,
+                    L_tot_col = NULL,
+                    Dhalf_col = NULL,
+                    TH_tot_col = "TH_tot_col",
+                    DBH_col = "DBH_col",
+                    plot_area = plot_area)
+print(results_ldt)
+# Example 2: Using "cwd" option
+data_cwd <- as.data.frame(list(
+  ForManInt = c("Intervention_A","Intervention_A","Intervention_A","Intervention_B","Intervention_B","Intervention_B"),
+  plot_col = c("Plot_1", "Plot_1","Plot_1","Plot_2","Plot_2","Plot_2"),
+  L_tot_col= c(15, 18,19,25,26,32),     # Tree height in meters
+  Dhalf_col = c(10,15,18,30,35,45)       # Half-diameter (cm)
+))
+
+plot_area <- 530
+LDT_CWD_option <- "cwd"
+
+results_cwd <- Apply_LyingDeadwood(data = data_cwd,
+                    ForManInt_option = "Yes",
+                    ForManInt = "ForManInt",
+                    plot_option = "Yes",
+                    plot_col = "plot_col",
+                    LDT_CWD_option = LDT_CWD_option,
+                    L_tot_col = "L_tot_col",
+                    Dhalf_col = "Dhalf_col",
+                    TH_tot_col = NULL,
+                    DBH_col = NULL,
+                    plot_area = plot_area)
+print(results_cwd)
 }

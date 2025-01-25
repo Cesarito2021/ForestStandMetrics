@@ -18,5 +18,6 @@ stand's basal area is made up of one species, it is considered the dominant spec
 }
 \examples{
 data <- data.frame(specie = c("Pine", "Oak", "Birch"),Sum_BA_m2 = c(30, 20, 5))
-DomTreeSpeciesDetection(data)
+results <- DomTreeSpeciesDetection(data)
+print(results)
 }

@@ -55,9 +55,28 @@ The function can compute these metrics for each plot, and also group and summari
 This is useful for understanding the effects of different forest management strategies on carbon sequestration and biomass accumulation.
 }
 \examples{
-\dontrun{
-data <- read.csv("forest_inventory.csv")
-result <- Apply_CarbonStockCalculator(data, "Yes", "Thinning", "Yes", "plot_id", "species", "volume")
-}
+# Example dataset
+data <- data.frame(
+  ForManInt = c("Intervention_A", "Intervention_A", "Intervention_A",
+                "Intervention_B", "Intervention_B", "Intervention_B"),
+  DomTreeSpecies = c("larches", "larches", "larches",
+                     "larches", "larches", "larches"),
+  plot = c("Plot1", "Plot1", "Plot1", "Plot2", "Plot2", "Plot2"),
+  vol_m3_ha = c(120.5, 85.3, 150.2, 95.7, 74.2, 84.2)
+)
+
+# Apply the Carbon Stock Calculator
+results <- Apply_CarbonStockCalculator(
+  data = data,
+  ForManInt_option = "Yes",   # Include forest management intervention
+  ForManInt = "ForManInt",
+  plot_option = "Yes",        # Include plot-level information
+  plot_col = "plot",
+  DomTreeSpecies = "DomTreeSpecies",
+  vol_col = "vol_m3_ha"
+)
+
+# View the calculated results
+print(results)
 
 }

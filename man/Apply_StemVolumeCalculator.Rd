@@ -66,9 +66,26 @@ and understanding the structural changes in forest stands. The calculations incl
 and dominant species identification, enabling comprehensive forest assessments.
 }
 \examples{
-\dontrun{
-data <- read.csv("forest_inventory.csv")
-result <- Apply_StemVolumeCalculator(data, "Yes", "Thinning", "Yes", "plot_id", 10, "dbh", "height", "species")
-}
+data <- as.data.frame(list(
+  ForManInt = c("Intervention_A","Intervention_A","Intervention_A","Intervention_B","Intervention_B","Intervention_B"),
+  plot_col = c("Plot_1", "Plot_1","Plot_1","Plot_2","Plot_2","Plot_2"),
+  dbh_col = c(10,15,18,30,35,45),    # Diameter at breast height (DBH) in cm
+  th_col = c(15, 18,19,25,26,32),     # Tree height in meters
+  specie_col = c("norway spruce", "norway spruce","norway spruce","norway spruce", "norway spruce","norway spruce")
+))
+plot_area = 530
 
+results <-  Apply_StemVolumeCalculator(
+  data = data,
+  ForManInt_option = "Yes",
+  ForManInt = "ForManInt",
+  plot_option = "Yes",
+  plot_col = "plot_col",
+  plot_area = 530,
+  dbh_col = "dbh_col",
+  th_col = "th_col",
+  specie_col = "specie_col"
+)
+# View the calculated results
+print(results)
 }

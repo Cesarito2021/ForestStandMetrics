@@ -11,8 +11,9 @@
 #' @param specie_col The name of the column in the data frame containing the tree species names.
 #' @return A numeric value of the stem volume for the given species, or a message if the species is not registered.
 #' @examples
-#' data <- data.frame(DBH = c(30, 25, 45), Height = c(15, 18, 20), Species = c("silver fir", "cypress", "oak"))
-#' StemVolumeCalculator(data, "DBH", "Height", "Species")
+#' data <- data.frame(DBH = c(30), Height = c(15), Species = c("silver fir"))
+#' results <- StemVolumeCalculator(data, "DBH", "Height", "Species")
+#' print(results)
 #' @export
 StemVolumeCalculator <-function(data, dbh_col, th_col, specie_col){
   # Check if the columns exist and retrieve their values, ensuring they are numeric
@@ -207,15 +208,21 @@ StemVolumeCalculator <-function(data, dbh_col, th_col, specie_col){
 #' If the typology is not registered, it returns an error message.
 #'
 #' @examples
-#' data <- data.frame(category = "stands",typology = "norway spruce",volume =0.5,area = 1)
-#' CarbonStockCalculator(data, "stands", "typology", "volume", "area")
-#'
-#' #' @export
-CarbonStockCalculator <- function(data, category_col, typology_col, vol_col, area_col) {
-  category <- tolower(trimws(data[[category_col]]))
+#' data <- data.frame(category = "stands", typology = "norway spruce", volume = 0.5)
+#' area_ha <- 1
+#' results <- CarbonStockCalculator(data, "stands", "typology", "volume", area_ha)
+#' print(results)
+#' @export
+CarbonStockCalculator <- function(data, category_col=NULL, typology_col, vol_col, area_col) {
+  if (!is.null(category_col)) {
+    category <- tolower(trimws(category_col))
+  } else {
+    category <- "stands"
+  } # unique category
+  #
   typology <- tolower(trimws(data[[typology_col]]))
   vol <- as.numeric(data[[vol_col]])
-  area <- as.numeric(data[[area_col]])
+  area <- as.numeric(area_col)# unique number
 
   if (category == "stands") {
     # Norway Spruce
@@ -305,7 +312,8 @@ CarbonStockCalculator <- function(data, category_col, typology_col, vol_col, are
 #' @return A numeric vector representing the basal area for each tree in square meters.
 #' @examples
 #' data <- data.frame(dbh = 30)
-#' BA_Calculator(data, dbh_col = "dbh")
+#' results <- BA_Calculator(data, dbh_col = "dbh")
+#'  print(results)
 #' @export
 BA_Calculator <- function(data, dbh_col) {
   dbh_cm <- as.numeric(data[[dbh_col]])
@@ -329,7 +337,8 @@ BA_Calculator <- function(data, dbh_col) {
 #' @return A character vector containing the type of stand ("Pure" or "Mixed") and the dominant species or "Mixed" if no species exceeds 50% of the basal area.
 #' @examples
 #' data <- data.frame(specie = c("Pine", "Oak", "Birch"),Sum_BA_m2 = c(30, 20, 5))
-#' DomTreeSpeciesDetection(data)
+#' results <- DomTreeSpeciesDetection(data)
+#' print(results)
 #' @export
 DomTreeSpeciesDetection <- function(data) {
   # Check if 'specie' column is missing
@@ -399,13 +408,29 @@ DomTreeSpeciesDetection <- function(data) {
 #'   and dominant species identification, enabling comprehensive forest assessments.
 #'
 #' @examples
-#' \dontrun{
-#' data <- read.csv("forest_inventory.csv")
-#' result <- Apply_StemVolumeCalculator(data, "Yes", "Thinning", "Yes", "plot_id", 10, "dbh", "height", "species")
-#' }
+#' data <- as.data.frame(list(
+#'   ForManInt = c("Intervention_A","Intervention_A","Intervention_A","Intervention_B","Intervention_B","Intervention_B"),
+#'   plot_col = c("Plot_1", "Plot_1","Plot_1","Plot_2","Plot_2","Plot_2"),
+#'   dbh_col = c(10,15,18,30,35,45),    # Diameter at breast height (DBH) in cm
+#'   th_col = c(15, 18,19,25,26,32),     # Tree height in meters
+#'   specie_col = c("norway spruce", "norway spruce","norway spruce","norway spruce", "norway spruce","norway spruce")
+#' ))
+#' plot_area = 530
 #'
+#' results <-  Apply_StemVolumeCalculator(
+#'   data = data,
+#'   ForManInt_option = "Yes",
+#'   ForManInt = "ForManInt",
+#'   plot_option = "Yes",
+#'   plot_col = "plot_col",
+#'   plot_area = 530,
+#'   dbh_col = "dbh_col",
+#'   th_col = "th_col",
+#'   specie_col = "specie_col"
+#' )
+#' # View the calculated results
+#' print(results)
 #' @export
-
 Apply_StemVolumeCalculator <- function(data, ForManInt_option, ForManInt, plot_option, plot_col, plot_area, dbh_col, th_col, specie_col) {
 
   # Check if the necessary columns are included in the dataset
@@ -529,10 +554,29 @@ Apply_StemVolumeCalculator <- function(data, ForManInt_option, ForManInt, plot_o
 #'   This is useful for understanding the effects of different forest management strategies on carbon sequestration and biomass accumulation.
 #'
 #' @examples
-#' \dontrun{
-#' data <- read.csv("forest_inventory.csv")
-#' result <- Apply_CarbonStockCalculator(data, "Yes", "Thinning", "Yes", "plot_id", "species", "volume")
-#' }
+#' # Example dataset
+#' data <- data.frame(
+#'   ForManInt = c("Intervention_A", "Intervention_A", "Intervention_A",
+#'                 "Intervention_B", "Intervention_B", "Intervention_B"),
+#'   DomTreeSpecies = c("larches", "larches", "larches",
+#'                      "larches", "larches", "larches"),
+#'   plot = c("Plot1", "Plot1", "Plot1", "Plot2", "Plot2", "Plot2"),
+#'   vol_m3_ha = c(120.5, 85.3, 150.2, 95.7, 74.2, 84.2)
+#' )
+#'
+#' # Apply the Carbon Stock Calculator
+#' results <- Apply_CarbonStockCalculator(
+#'   data = data,
+#'   ForManInt_option = "Yes",   # Include forest management intervention
+#'   ForManInt = "ForManInt",
+#'   plot_option = "Yes",        # Include plot-level information
+#'   plot_col = "plot",
+#'   DomTreeSpecies = "DomTreeSpecies",
+#'   vol_col = "vol_m3_ha"
+#' )
+#'
+#' # View the calculated results
+#' print(results)
 #'
 #' @import dplyr
 #' @export
@@ -566,9 +610,8 @@ Apply_CarbonStockCalculator <- function(data, ForManInt_option, ForManInt, plot_
 
   # Apply CarbonStockCalculator to each plot
   for (i in 1:nrow(output_plot)) {
-    temp <- output_plot[i, ]
-    result <- CarbonStockCalculator(data = temp, category_col = "stands", typology_col = "DomTreeSpecies", vol_col = "vol_m3_ha", area_col = 1)
-
+    temp <- output_plot[i, , drop = FALSE]#
+    result <- CarbonStockCalculator(data = temp, category_col=NULL, typology_col="DomTreeSpecies", vol_col="vol_m3_ha", area_col = 1)
     if (!is.null(result)) {
       output_plot[i, c("AGB_tn_ha", "CS_tn_ha")] <- result
     }
@@ -601,5 +644,3 @@ Apply_CarbonStockCalculator <- function(data, ForManInt_option, ForManInt, plot_
   # Return the results as a list
   return(list(output_plot, output_ForManInt))
 }
-
-

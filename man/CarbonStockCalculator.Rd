@@ -4,7 +4,13 @@
 \alias{CarbonStockCalculator}
 \title{Carbon Stock Calculator}
 \usage{
-CarbonStockCalculator(data, category_col, typology_col, vol_col, area_col)
+CarbonStockCalculator(
+  data,
+  category_col = NULL,
+  typology_col,
+  vol_col,
+  area_col
+)
 }
 \arguments{
 \item{data}{A data frame containing forest inventory data.}
@@ -26,8 +32,8 @@ This function calculates the Above-Ground Biomass (AGB) and Carbon Stock (CS)
 for forest stands based on volume, area, and typology.
 }
 \examples{
-data <- data.frame(category = "stands",typology = "norway spruce",volume =0.5,area = 1)
-CarbonStockCalculator(data, "stands", "typology", "volume", "area")
-
-#' @export
+data <- data.frame(category = "stands", typology = "norway spruce", volume = 0.5)
+area_ha <- 1
+results <- CarbonStockCalculator(data, "stands", "typology", "volume", area_ha)
+print(results)
 }

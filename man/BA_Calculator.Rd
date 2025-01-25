@@ -21,5 +21,6 @@ The calculation is performed in square meters using the formula:
 }
 \examples{
 data <- data.frame(dbh = 30)
-BA_Calculator(data, dbh_col = "dbh")
+results <- BA_Calculator(data, dbh_col = "dbh")
+ print(results)
 }

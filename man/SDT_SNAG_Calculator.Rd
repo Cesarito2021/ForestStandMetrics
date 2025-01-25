@@ -39,7 +39,7 @@ This function calculates the volume of standing deadwood (SDT) or snags based on
 Depending on the selected option, it can compute the volume for standing deadwood, snags, or both types of deadwood.
 }
 \examples{
-data <- data.frame(TH_tot = c(10, 15), DBH = c(30, 40), L_tot = c(8, 12), Dhalf = c(20, 30))
+data <- data.frame(TH_tot= c(10, 15), DBH = c(30, 40), L_tot = c(8, 12), Dhalf = c(20, 30))
 # Calculate Standing Deadwood Volume
 SDT_SNAG_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", SDT_SNAG_option = "sdt")
 # Calculate Snag Volume

@@ -4,7 +4,7 @@
 \alias{calculate_SDI}
 \title{Stand Density Index (SDI) Calculation}
 \usage{
-calculate_SDI(N, G, b = 1.605, type = "coetanei")
+calculate_SDI(N, G, b = 1.605, type = "even-aged")
 }
 \arguments{
 \item{N}{A numeric value representing tree density (trees per hectare).}
@@ -15,8 +15,10 @@ calculate_SDI(N, G, b = 1.605, type = "coetanei")
 between tree density and diameter.}
 
 \item{type}{A character string specifying the type of forest stand. Options are:
-\item "coetanei" for even-aged stands (default),
-\item "disetanei" for uneven-aged stands.}
+\itemize{
+\item "even-aged" for even-aged stands (default),
+\item "uneven-aged" for uneven-aged stands.
+}}
 }
 \value{
 A numeric value representing the calculated Stand Density Index (SDI) for the given forest stand.
@@ -24,8 +26,8 @@ A numeric value representing the calculated Stand Density Index (SDI) for the gi
 \description{
 This function calculates the Stand Density Index (SDI) for a forest plot based on tree density
 and quadratic mean diameter (QMD). The SDI is commonly used to assess stand density in forest
-management, and it can be calculated for different forest types, such as even-aged (coetanei) or
-uneven-aged (disetanei) stands.
+management, and it can be calculated for different forest types, such as even-aged or
+uneven-aged stands.
 }
 \details{
 The formula for SDI is:
@@ -45,6 +47,6 @@ calculate_SDI(N, G)  # for even-aged stand
 
 N2 <- 300
 G2 <- 30
-calculate_SDI(N2, G2, type = "disetanei")  # for uneven-aged stand
+calculate_SDI(N2, G2, type = "uneven-aged")  # for uneven-aged stand
 
 }

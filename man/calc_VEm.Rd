@@ -4,15 +4,15 @@
 \alias{calc_VEm}
 \title{Calculate the Vertical Evenness Index (VEm) for Forest Plots}
 \usage{
-calc_VEm(data, height_col, basal_area_col)
+calc_VEm(data, th_col, ba_col)
 }
 \arguments{
 \item{data}{A data frame containing tree data with height and basal area information.
 The data should include at least one column for tree heights and one for basal area values.}
 
-\item{height_col}{A character string specifying the column name containing tree heights (m).}
+\item{th_col}{A character string specifying the column name containing tree heights (m).}
 
-\item{basal_area_col}{A character string specifying the column name containing basal area values (m²).}
+\item{ba_col}{A character string specifying the column name containing basal area values (m²).}
 }
 \value{
 A numeric value representing the Vertical Evenness Index (VEm). Higher values indicate
@@ -33,7 +33,9 @@ the specific method for dividing the plot into height classes and the biomass di
 }
 \examples{
 # Example usage
-data <- data.frame(height = c(10, 15, 20, 25), basal_area = c(0.2, 0.5, 0.7, 1.0))
-calc_VEm(data, height_col = "height", basal_area_col = "basal_area")
+data <- data.frame(th = c(10, 15, 20, 25), ba = c(0.2, 0.5, 0.7, 1.0))
+results <- calc_VEm(data, th_col = "th", ba_col = "ba")
+
+print(results)
 
 }
