@@ -28,12 +28,9 @@
 #' # Calculate Both Volumes (Lying Deadwood and Coarse Woody Debris)
 #' LDT_CWD_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", LDT_CWD_option = "both")
 #' @export
-
 LDT_CWD_Calculator <- function(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col, LDT_CWD_option) {
   LDT_CWD_Arch(data = data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col, LDT_CWD_option)
 }
-
-
 
 #'Deadwood Volume Calculation for Individual Components (Standing and Snag)
 #'
@@ -67,7 +64,6 @@ SDT_SNAG_Calculator <- function(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col,
   SDT_SNAG_Arch(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col, SDT_SNAG_option)
 }
 
-
 #' Deadwood Volume Calculation for Individual Components (Double Input for Diameters: Dmax and Dmin)
 #'
 #' This function calculates the total volume of deadwood (including LDT, SDT, CWD, Snags, and Stumps)
@@ -93,7 +89,6 @@ SDT_SNAG_Calculator <- function(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col,
 #' data_multiple <- data.frame(H_Len = c(10, 12, 14), D_max = c(30, 35, 40), D_min = c(20, 25, 28))
 #' All_Deadwood_Calculator(data_multiple, H_Len_col = "H_Len", D_max_col = "D_max", D_min_col = "D_min")
 #' @export
-
 All_Deadwood_Calculator <- function(data, H_Len_col, D_max_col, D_min_col) {
   All_Deadwood_Arch(data, H_Len_colL, D_max_col, D_min_col)
 }

@@ -1,3 +1,8 @@
+#' Stem Volume Architecture
+#'
+#' **Note:** This function is currently not accessible. To calculate stem volume, please use the
+#' `StemVolumeCalculator` function instead.
+#'
 #' This function calculates the stem volume of trees based on diameter at breast height (DBH),
 #' total height (TH), and the species name. The formula used for the calculation depends on the
 #' species, and the function supports a variety of common tree species. It is designed to be used
@@ -192,6 +197,9 @@ StemVolumeArch <-function(data, dbh_col, th_col, specie_col){
 
 #' Carbon Stock Architecture
 #'
+#' **Note:** This function is currently not accessible. To calculate carbon stock, please use the
+#' `CarbonStockCalculator` function instead.
+#'
 #' This function calculates the Above-Ground Biomass (AGB) and Carbon Stock (CS)
 #' for forest stands based on volume, area, and typology.
 #'
@@ -299,6 +307,9 @@ CarbonStockArch <- function(data, category_col=NULL, typology_col, vol_col, area
 }
 
 #' Forest Structure and Species Diversity Indices
+#'
+#' **Note:** This function is currently not accessible. To calculate structural and species diversity, please use the
+#' `ForStrSpecDiv` function instead.
 #'
 #' This function calculates various forest diversity indices and tree structural metrics,
 #' including Simpson and Shannon diversity indices for diameter at breast height (dbh),
@@ -415,6 +426,9 @@ ForStrSpecDiv_Arch <- function(data, dbh_col, th_col, ba_col, specie_col, plot_a
 
 #' Lying and Standing Deadwood Volume Architecture
 #'
+#' **Note:** This function is currently not accessible. To calculate deadwood volume, please use the
+#' `LDT_CWD_Calculator` function instead.
+#'
 #' This function calculates the volume of deadwood for either lying deadwood (LDT), coarse woody debris (CWD), or both.
 #' The calculation uses input tree measurements such as total height (TH), diameter at breast height (DBH),
 #' total length of coarse woody debris (L_tot), and diameter at half the length (Dhalf). Depending on the selected option,
@@ -489,7 +503,10 @@ LDT_CWD_Arch <- function(data, TH_tot_col = NULL, DBH_col = NULL, L_tot_col = NU
   }
 }
 
-#' Deadwood Volume Calculation for Individual Components (Lying and CWD)
+#' Deadwood Volume Calculation for Individual Components (Standing and Snag)
+#'
+#' **Note:** This function is currently not accessible. To calculate deadwood volume, please use the
+#' `SDT_SNAG_Calculator` function instead.
 #'
 #' This function calculates the volume of standing deadwood (SDT) or snags based on tree measurements.
 #' Depending on the selected option, it can compute the volume for standing deadwood, snags, or both types of deadwood.
@@ -564,6 +581,9 @@ SDT_SNAG_Arch <- function(data, TH_tot_col = NULL, DBH_col = NULL, L_tot_col = N
 }
 
 #' Deadwood Volume Calculator using Lombardi's Formula Architecture
+#'
+#' **Note:** This function is currently not accessible. To calculate deadwood volume, please use the
+#' `All_Deadwood_Calculator` function instead.
 #'
 #' This function calculates the total volume of deadwood (including LDT, SDT, CWD, Snags, and Stumps)
 #' using Lombardi's formula. The formula requires tree height, maximum diameter, and
