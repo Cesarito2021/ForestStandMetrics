@@ -1,80 +1,3 @@
-#' Lying and Standing Deadwood Volume Architecture
-#'
-#' This function calculates the volume of deadwood for either lying deadwood (LDT), coarse woody debris (CWD), or both.
-#' The calculation uses input tree measurements such as total height (TH), diameter at breast height (DBH),
-#' total length of coarse woody debris (L_tot), and diameter at half the length (Dhalf). Depending on the selected option,
-#' the function computes the respective volume and returns the results.
-#'
-#' @param data A data frame containing the tree measurement data. The data should include the relevant columns specified
-#' for the calculation.
-#' @param TH_tot_col A character string specifying the column name for the total height (m).
-#' @param DBH_col A character string specifying the column name for diameter at breast height (DBH in cm).
-#' @param L_tot_col A character string specifying the column name for the total length (m) of coarse woody debris (CWD).
-#' @param Dhalf_col A character string specifying the column name for the diameter at half the length (cm) of CWD.
-#' @param LDT_CWD_option A character string indicating which volume to calculate:
-#'        "ldt" for lying deadwood, "cwd" for coarse woody debris, or "both" for both volumes.
-#'
-#' @return A numeric vector with the calculated volume(s) in cubic meters, depending on the specified option.
-#'         If "ldt" is chosen, the function returns the volume of lying deadwood.
-#'         If "cwd" is chosen, it returns the volume of coarse woody debris.
-#'         If "both" is selected, it returns the sum of both volumes.
-#'
-#' @examples
-#' data <- data.frame(TH_tot = c(10, 15), DBH = c(30, 40), L_tot = c(8, 12), Dhalf = c(20, 30))
-#' # Calculate Lying Deadwood Volume
-#' LDT_CWD_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", LDT_CWD_option = "ldt")
-#' # Calculate Coarse Woody Debris Volume
-#' LDT_CWD_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", LDT_CWD_option = "cwd")
-#' # Calculate Both Volumes (Lying Deadwood and Coarse Woody Debris)
-#' LDT_CWD_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", LDT_CWD_option = "both")
-#  Note: no @export tag here.
-LDT_CWD_Arch <- function(data, TH_tot_col = NULL, DBH_col = NULL, L_tot_col = NULL, Dhalf_col = NULL, LDT_CWD_option) {
-  if (!LDT_CWD_option %in% c("ldt", "cwd", "both")) {
-    stop("Invalid LDT_CWD_option. Choose 'ldt', 'cwd', or 'both'.")
-  }
-
-  ldt_vol_m3 <- NA
-  cwd_vol_m3 <- NA
-
-  if (LDT_CWD_option == "ldt") {
-    if (is.null(TH_tot_col) || is.null(DBH_col)) {
-      stop("For 'ldt', both TH_tot_col and DBH_col must be provided.")
-    }
-    TH_tot_m <- as.numeric(data[[TH_tot_col]])
-    DBH_cm <- as.numeric(data[[DBH_col]])
-    DBH_m <- DBH_cm / 100
-    factor <- 0.5
-    ldt_vol_m3 <- factor * TH_tot_m * (pi / 4) * (DBH_m^2)
-    return(ldt_vol_m3)
-
-  } else if (LDT_CWD_option == "cwd") {
-    if (is.null(L_tot_col) || is.null(Dhalf_col)) {
-      stop("For 'cwd', both L_tot_col and Dhalf_col must be provided.")
-    }
-    L_tot_m <- as.numeric(data[[L_tot_col]])
-    Dhalf_cm <- as.numeric(data[[Dhalf_col]])
-    Dhalf_m <- Dhalf_cm / 100
-    cwd_vol_m3 <- (pi / 4) * L_tot_m * (Dhalf_m^2)
-    return(cwd_vol_m3)
-
-  } else if (LDT_CWD_option == "both") {
-    if (is.null(TH_tot_col) || is.null(DBH_col) || is.null(L_tot_col) || is.null(Dhalf_col)) {
-      stop("For 'both', all input columns must be provided.")
-    }
-    TH_tot_m <- as.numeric(data[[TH_tot_col]])
-    DBH_cm <- as.numeric(data[[DBH_col]])
-    L_tot_m <- as.numeric(data[[L_tot_col]])
-    Dhalf_cm <- as.numeric(data[[Dhalf_col]])
-    DBH_m <- DBH_cm / 100
-    Dhalf_m <- Dhalf_cm / 100
-    factor <- 0.5
-    ldt_vol_m3 <- factor * TH_tot_m * (pi / 4) * (DBH_m^2)
-    cwd_vol_m3 <- (pi / 4) * L_tot_m * (Dhalf_m^2)
-    return(c(cwd_vol_m3, ldt_vol_m3))
-  }
-}
-
-
 #' Deadwood Volume Calculation for Individual Components (Lying and CWD)
 #'
 #' This function calculates the volume of deadwood for either lying deadwood (LDT), coarse woody debris (CWD), or both.
@@ -110,79 +33,6 @@ LDT_CWD_Calculator <- function(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col, 
   LDT_CWD_Arch(data = data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col, LDT_CWD_option)
 }
 
-#' Deadwood Volume Calculation for Individual Components (Lying and CWD)
-#'
-#' This function calculates the volume of standing deadwood (SDT) or snags based on tree measurements.
-#' Depending on the selected option, it can compute the volume for standing deadwood, snags, or both types of deadwood.
-#'
-#' @param data A data frame containing the tree measurement data. It should include columns for
-#' total height (TH), diameter at breast height (DBH), total length of snags (L_tot), and diameter at half the length (Dhalf).
-#' @param TH_tot_col A character string specifying the column name for total height (m).
-#' @param DBH_col A character string specifying the column name for diameter at breast height (DBH in cm).
-#' @param L_tot_col A character string specifying the column name for total length (m) of snags.
-#' @param Dhalf_col A character string specifying the column name for the diameter at half the length (cm) of snags.
-#' @param SDT_SNAG_option A character string to specify which volume to calculate:
-#'        "sdt" for standing deadwood, "snag" for snags, or "both" to calculate the volume for both types of deadwood.
-#'
-#' @return A numeric vector with the calculated volume(s) in cubic meters, depending on the specified option:
-#'         - "sdt" returns the volume of standing deadwood.
-#'         - "snag" returns the volume of snags.
-#'         - "both" returns the sum of both volumes.
-#'
-#' @examples
-#' data <- data.frame(TH_tot= c(10, 15), DBH = c(30, 40), L_tot = c(8, 12), Dhalf = c(20, 30))
-#' # Calculate Standing Deadwood Volume
-#' SDT_SNAG_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", SDT_SNAG_option = "sdt")
-#' # Calculate Snag Volume
-#' SDT_SNAG_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", SDT_SNAG_option = "snag")
-#' # Calculate Both Standing Deadwood and Snag Volumes
-#' SDT_SNAG_Calculator(data, TH_tot_col = "TH_tot", DBH_col = "DBH", L_tot_col = "L_tot", Dhalf_col = "Dhalf", SDT_SNAG_option = "both")
-#  Note: no @export tag here.
-SDT_SNAG_Arch <- function(data, TH_tot_col = NULL, DBH_col = NULL, L_tot_col = NULL, Dhalf_col = NULL, SDT_SNAG_option) {
-  if (!SDT_SNAG_option %in% c("sdt", "snag", "both")) {
-    stop("Invalid SDT_SNAG_option. Choose 'sdt', 'snag', or 'both'.")
-  }
-
-  sdt_vol_m3 <- NA
-  snag_vol_m3 <- NA
-
-  if (SDT_SNAG_option == "sdt") {
-    if (is.null(TH_tot_col) || is.null(DBH_col)) {
-      stop("For 'sdt', both TH_tot_col and DBH_col must be provided.")
-    }
-    TH_tot_m <- as.numeric(data[[TH_tot_col]])
-    DBH_cm <- as.numeric(data[[DBH_col]])
-    DBH_m <- DBH_cm / 100
-    factor <- 0.5
-    sdt_vol_m3 <- factor * TH_tot_m * (pi / 4) * (DBH_m^2)
-    return(sdt_vol_m3)
-
-  } else if (SDT_SNAG_option == "snag") {
-    if (is.null(L_tot_col) || is.null(Dhalf_col)) {
-      stop("For 'snag', both L_tot_col and Dhalf_col must be provided.")
-    }
-    L_tot_m <- as.numeric(data[[L_tot_col]])
-    Dhalf_cm <- as.numeric(data[[Dhalf_col]])
-    Dhalf_m <- Dhalf_cm / 100
-    snag_vol_m3 <- (pi / 4) * L_tot_m * (Dhalf_m^2)
-    return(snag_vol_m3)
-
-  } else if (SDT_SNAG_option == "both") {
-    if (is.null(TH_tot_col) || is.null(DBH_col) || is.null(L_tot_col) || is.null(Dhalf_col)) {
-      stop("For 'both', all input columns must be provided.")
-    }
-    TH_tot_m <- as.numeric(data[[TH_tot_col]])
-    DBH_cm <- as.numeric(data[[DBH_col]])
-    L_tot_m <- as.numeric(data[[L_tot_col]])
-    Dhalf_cm <- as.numeric(data[[Dhalf_col]])
-    DBH_m <- DBH_cm / 100
-    Dhalf_m <- Dhalf_cm / 100
-    factor <- 0.5
-    sdt_vol_m3 <- factor * TH_tot_m * (pi / 4) * (DBH_m^2)
-    snag_vol_m3 <- (pi / 4) * L_tot_m * (Dhalf_m^2)
-    return(c(snag_vol_m3, sdt_vol_m3))
-  }
-}
 
 
 #'Deadwood Volume Calculation for Individual Components (Standing and Snag)
@@ -217,47 +67,6 @@ SDT_SNAG_Calculator <- function(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col,
   SDT_SNAG_Arch(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col, SDT_SNAG_option)
 }
 
-#' Deadwood Volume Calculator using Lombardi's Formula Architecture
-#'
-#' This function calculates the total volume of deadwood (including LDT, SDT, CWD, Snags, and Stumps)
-#' using Lombardi's formula. The formula requires tree height, maximum diameter, and
-#' minimum diameter measurements to estimate the volume of deadwood in cubic meters.
-#' This method is widely used in forestry for estimating the volume of various deadwood types in a forest stand.
-#'
-#' @param data A data frame containing the tree measurement data. The data frame should include columns
-#'        for tree height (H_Len), maximum diameter (D_max), and minimum diameter (D_min).
-#' @param H_Len_col A character string specifying the column name for tree height (m).
-#' @param D_max_col A character string specifying the column name for the maximum diameter (cm).
-#' @param D_min_col A character string specifying the column name for the minimum diameter (cm).
-#'
-#' @return A numeric vector containing the calculated deadwood volume(s) in cubic meters for each tree
-#'         or for the entire dataset, depending on how the function is applied.
-#'         The result represents the total volume of deadwood for each observation.
-#'
-#' @examples
-#' data <- data.frame(H_Len = c(10, 12), D_max = c(30, 35), D_min = c(20, 25))
-#' All_Deadwood_Calculator(data, H_Len_col = "H_Len", D_max_col = "D_max", D_min_col = "D_min")
-#'
-#' # Example with a dataset including multiple trees:
-#' data_multiple <- data.frame(H_Len = c(10, 12, 14), D_max = c(30, 35, 40), D_min = c(20, 25, 28))
-#' All_Deadwood_Calculator(data_multiple, H_Len_col = "H_Len", D_max_col = "D_max", D_min_col = "D_min")
-# Note: no @export tag here.
-All_Deadwood_Arch <- function(data, H_Len_col = NULL, D_max_col = NULL, D_min_col = NULL) {
-  # Validate required columns
-  if (is.null(H_Len_col) || is.null(D_max_col) || is.null(D_min_col)) {
-    stop("For deadwood volume calculation, H_Len_col, D_max_col, and D_min_col must be provided.")
-  }
-
-  # Extract and convert the input data
-  H_Len_m <- as.numeric(data[[H_Len_col]])
-  D_max_m <- (as.numeric(data[[D_max_col]]) / 100) / 2  # Convert to radius (m)
-  D_min_m <- (as.numeric(data[[D_min_col]]) / 100) / 2  # Convert to radius (m)
-
-  # Apply Lombardi's formula for deadwood volume calculation
-  volume_m3 <- (pi * H_Len_m / 3) * (D_max_m^2 + D_min_m^2 + (D_max_m * D_min_m))
-
-  return(volume_m3)
-}
 
 #' Deadwood Volume Calculation for Individual Components (Double Input for Diameters: Dmax and Dmin)
 #'
@@ -477,11 +286,6 @@ Apply_LyingDeadwood <- function(data, ForManInt_option, ForManInt, plot_option, 
       mutate(ID = row_number()) %>%
       select(ID, everything())
   }
-
-
-
-
-
   ##
   vector <- c("cwd", "ldt")
   # Assign results to the respective columns
@@ -510,10 +314,7 @@ Apply_LyingDeadwood <- function(data, ForManInt_option, ForManInt, plot_option, 
       mutate(across(where(is.numeric), ~ round(., 2))) %>%
       mutate(ID = row_number()) %>%
       select(ID,everything())
-
-
   }
-
   # Return both plot-level and forest-management summaries
   return(list(output_plot, output_ForManInt))
 }
@@ -827,7 +628,6 @@ Apply_All_Deadwood <- function(data, ForManInt_option, ForManInt,plot_option, pl
     output[i, "DEADWOOD_m3"] <- result
   }
   # Assign results to the respective columns
-
   output_plot <- output %>%
     group_by(plot) %>%
     summarise(
@@ -843,8 +643,6 @@ Apply_All_Deadwood <- function(data, ForManInt_option, ForManInt,plot_option, pl
     mutate(across(where(is.numeric), ~ round(., 3))) %>%
     mutate(ID = row_number()) %>%
     select(ID, everything())
-
-  ##
   # Summarize results by forest management intervention
   output_ForManInt <- output_plot %>%
     group_by(ForManInt) %>%
