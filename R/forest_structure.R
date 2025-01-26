@@ -20,7 +20,6 @@ StemVolumeCalculator <- function(data, dbh_col, th_col, specie_col) {
   StemVolumeArch(data, dbh_col, th_col, specie_col)
 }
 
-
 #' Carbon Stock Architecture
 #'
 #' This function calculates the Above-Ground Biomass (AGB) and Carbon Stock (CS)
