@@ -2,7 +2,7 @@
 % Please edit documentation in R/forest_structure.R
 \name{Apply_CarbonStockCalculator}
 \alias{Apply_CarbonStockCalculator}
-\title{Apply Carbon Stock Calculator to Forest Inventory Data}
+\title{Carbon Stock Calculation for Multiple Plots and Forest Management Practices}
 \usage{
 Apply_CarbonStockCalculator(
   data,

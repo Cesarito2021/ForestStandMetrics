@@ -2,7 +2,7 @@
 % Please edit documentation in R/stand_diversity.R
 \name{CI_plot_1000}
 \alias{CI_plot_1000}
-\title{CI_plot_1000}
+\title{Calculate the Structural Diversity Index (CI) for a given dataset of trees.}
 \usage{
 CI_plot_1000(data, th_col, ba_col, specie_col, plot_area)
 }
@@ -21,9 +21,6 @@ CI_plot_1000(data, th_col, ba_col, specie_col, plot_area)
 A numeric value representing the Structural Diversity Index (CI).
 }
 \description{
-Calculate the Structural Diversity Index (CI) for a given dataset of trees.
-}
-\details{
 This function computes the CI based on tree height, basal area, and species composition
 from a specified plot area. It is useful for ecologists and forest managers assessing
 the diversity and structural complexity of forest stands.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/forest_structure.R
 \name{Apply_StemVolumeCalculator}
 \alias{Apply_StemVolumeCalculator}
-\title{Apply Stem Volume Calculator and Forest Management Interventions}
+\title{Stem Volume Calculation for Multiple Plots and Forest Management Practices}
 \usage{
 Apply_StemVolumeCalculator(
   data,

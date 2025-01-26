@@ -1,6 +1,4 @@
 
-#' CI_plot_1000
-#'
 #' Calculate the Structural Diversity Index (CI) for a given dataset of trees.
 #'
 #' This function computes the CI based on tree height, basal area, and species composition
@@ -141,7 +139,6 @@ calculate_SDI <- function(N, G, b = 1.605, type = "even-aged") {
 #'
 #' @import vegan
 #' @export
-
 calc_VEm <- function(data, th_col, ba_col) {
 
   # Step 1: Find the maximum height to set thresholds for strata
@@ -228,9 +225,8 @@ calc_VEm <- function(data, th_col, ba_col) {
 #'
 #' @import vegan
 #' @import DescTools
-#' @export
-
-ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) {
+#  Note: no @export tag here.
+ForStrSpecDiv_Arch <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) {
 
   # Select relevant columns from the data
   input <- data %>% dplyr::select(any_of(c(dbh_col, th_col, ba_col, specie_col)))
@@ -293,6 +289,61 @@ ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) 
   return(output)
 }
 
+#' Forest Structure and Species Diversity Indices for Forest Stand
+#'
+#' This function calculates various forest diversity indices and tree structural metrics,
+#' including Simpson and Shannon diversity indices for diameter at breast height (dbh),
+#' tree height (th), and species richness. It also computes the Gini index for basal area and
+#' diameter, the coefficient of variation for basal area, and the Vertical Evenness Index (VEm).
+#' Additionally, the function calculates the Stand Density Index (SDI).
+#'
+#' @param data A data frame containing the forest inventory data. It should include columns for
+#'   diameter at breast height (dbh), tree height (th), basal area (ba), and species.
+#' @param dbh_col A character string specifying the column name for diameter at breast height (dbh)
+#'   in centimeters.
+#' @param th_col A character string specifying the column name for tree height (th) in meters.
+#' @param ba_col A character string specifying the column name for basal area (ba) in square meters.
+#' @param specie_col A character string specifying the column name for species names.
+#' @param plot_area A numeric value indicating the area of the forest plot in square meters (m²).
+#'
+#' @return A data frame containing the calculated diversity and structural indices for the forest plot.
+#'   The returned data frame includes:
+#'   - Simpson's diversity index (for dbh, th, and species richness)
+#'   - Shannon's diversity index (for dbh, th, and species richness)
+#'   - Gini index for basal area and diameter
+#'   - Coefficient of variation for basal area
+#'   - Vertical Evenness Index (VEm)
+#'   - Stand Density Index (SDI)
+#'
+#' @details This function performs multiple calculations on a given forest inventory dataset to
+#'   assess forest structural complexity and species diversity. The calculated indices help in
+#'   understanding the spatial and vertical distribution of trees and their structural variability.
+#'   These metrics are useful for forest management, ecological assessments, and biodiversity studies.
+#'
+#' @examples
+#' # Example usage:
+#' data <- as.data.frame(list(
+#'   dbh_col = c(10, 15, 18, 30, 35, 45),     # Diameter at breast height (DBH) in cm
+#'   th_col = c(15, 18, 19, 25, 26, 32),      # Tree height in meters
+#'   ba_col = c(0.007854, 0.017671, 0.025446, 0.070685, 0.096211, 0.159154),  # Basal Area (calculated)
+#'   specie_col = c("norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce", "norway spruce")
+#' ))
+#' plot_area = 530
+#' results <- ForStrSpecDiv(data = data,
+#'                         dbh_col = "dbh_col",
+#'                         th_col = "th_col",
+#'                         ba_col = "ba_col",
+#'                         specie_col = "specie_col",
+#'                         plot_area = plot_area)
+#'
+#' print(results)
+#'
+#' @import vegan
+#' @import DescTools
+#' @export
+ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) {
+  ForStrSpecDiv_Arch(data, dbh_col, th_col, ba_col, specie_col, plot_area)
+}
 
 #' Apply Forest Structure and Species Diversity Calculation
 #'
@@ -357,8 +408,6 @@ ForStrSpecDiv <- function(data, dbh_col, th_col, ba_col, specie_col, plot_area) 
 #' @import dplyr
 #' @importFrom dplyr %>%
 #' @export
-
-
 Apply_ForStrSpecDiv <- function(data,ForManInt_option, ForManInt,plot_option, plot_col, dbh_col,th_col,specie_col,plot_area) {
   # check if the ForManInt are included in the dataset
   if(ForManInt_option== "No"){

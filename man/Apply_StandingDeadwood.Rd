@@ -2,7 +2,7 @@
 % Please edit documentation in R/standing_lying_deadwood.R
 \name{Apply_StandingDeadwood}
 \alias{Apply_StandingDeadwood}
-\title{Apply Standing Deadwood (SDT) or Snag Volume Calculation}
+\title{Deadwood Volume Calculation (Standing and Snag) for Multiple Plots and Forest Management Practices}
 \usage{
 Apply_StandingDeadwood(
   data,

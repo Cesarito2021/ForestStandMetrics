@@ -1,4 +1,4 @@
-#' Calculate Stem Volume for Various Tree Species
+#' Stem Volume Architecture
 #'
 #' This function calculates the stem volume of trees based on diameter at breast height (DBH),
 #' total height (TH), and the species name. The formula used for the calculation depends on the
@@ -12,10 +12,11 @@
 #' @return A numeric value of the stem volume for the given species, or a message if the species is not registered.
 #' @examples
 #' data <- data.frame(DBH = c(30), Height = c(15), Species = c("silver fir"))
-#' results <- StemVolumeCalculator(data, "DBH", "Height", "Species")
+#' results <- StemVolumeArch(data, "DBH", "Height", "Species")
 #' print(results)
-#' @export
-StemVolumeCalculator <-function(data, dbh_col, th_col, specie_col){
+#' (Rest of the documentation)
+#  Note: no @export tag here.
+StemVolumeArch <-function(data, dbh_col, th_col, specie_col){
   # Check if the columns exist and retrieve their values, ensuring they are numeric
   dbh <- as.numeric(data[[dbh_col]])
   th <- as.numeric(data[[th_col]])
@@ -191,9 +192,30 @@ StemVolumeCalculator <-function(data, dbh_col, th_col, specie_col){
   }
 }
 
+#' Stem Volume Calculation for Individual Tree Species
+#'
+#' This function calculates the stem volume of trees based on diameter at breast height (DBH),
+#' total height (TH), and the species name. The formula used for the calculation depends on the
+#' species, and the function supports a variety of common tree species. It is designed to be used
+#' in forestry analysis for estimating biomass and carbon storage potential.
+#'
+#' @param data A data frame containing the tree data.
+#' @param dbh_col The name of the column in the data frame containing the diameter at breast height (DBH) values.
+#' @param th_col The name of the column in the data frame containing the total height (TH) values.
+#' @param specie_col The name of the column in the data frame containing the tree species names.
+#' @return A numeric value of the stem volume for the given species, or a message if the species is not registered.
+#' @examples
+#' data <- data.frame(DBH = c(30), Height = c(15), Species = c("silver fir"))
+#' results <- StemVolumeCalculator(data, "DBH", "Height", "Species")
+#' print(results)
+#' (Rest of the documentation)
+#' @export
+StemVolumeCalculator <- function(data, dbh_col, th_col, specie_col) {
+  StemVolumeArch(data, dbh_col, th_col, specie_col)
+}
 
 
-#' Carbon Stock Calculator
+#' Carbon Stock Architecture
 #'
 #' This function calculates the Above-Ground Biomass (AGB) and Carbon Stock (CS)
 #' for forest stands based on volume, area, and typology.
@@ -210,10 +232,11 @@ StemVolumeCalculator <-function(data, dbh_col, th_col, specie_col){
 #' @examples
 #' data <- data.frame(category = "stands", typology = "norway spruce", volume = 0.5)
 #' area_ha <- 1
-#' results <- CarbonStockCalculator(data, "stands", "typology", "volume", area_ha)
+#' results <- CarbonStockArch(data, "stands", "typology", "volume", area_ha)
 #' print(results)
-#' @export
-CarbonStockCalculator <- function(data, category_col=NULL, typology_col, vol_col, area_col) {
+#' (Rest of the documentation)
+#  Note: no @export tag here.
+CarbonStockArch <- function(data, category_col=NULL, typology_col, vol_col, area_col) {
   if (!is.null(category_col)) {
     category <- tolower(trimws(category_col))
   } else {
@@ -300,8 +323,31 @@ CarbonStockCalculator <- function(data, category_col=NULL, typology_col, vol_col
   }
 }
 
+#' Carbon Stock Calculation for Forest Stand
+#'
+#' This function calculates the Above-Ground Biomass (AGB) and Carbon Stock (CS)
+#' for forest stands based on volume, area, and typology.
+#'
+#' @param data A data frame containing forest inventory data.
+#' @param category_col A string specifying the column name for the category (e.g., "stands").
+#' @param typology_col A string specifying the column name for the forest typology.
+#' @param vol_col A string specifying the column name for the volume (in m3/ha).
+#' @param area_col A numeric value or string specifying the area column (in ha).
+#'
+#' @return A named vector with Above-Ground Biomass (AGB) and Carbon Stock (CS) in tons.
+#' If the typology is not registered, it returns an error message.
+#'
+#' @examples
+#' data <- data.frame(category = "stands", typology = "norway spruce", volume = 0.5)
+#' area_ha <- 1
+#' results <- CarbonStockCalculator(data, "stands", "typology", "volume", area_ha)
+#' print(results)
+#' @export
+CarbonStockCalculator <- function(data, category_col, typology_col, vol_col, area_col) {
+  CarbonStockArch(data, category_col, typology_col, vol_col, area_col)
+}
 
-#' Calculate Basal Area
+#' Basal Area Calculation for Individual Tree Species
 #'
 #' This function calculates the basal area (BA) for each tree based on its diameter at breast height (DBH).
 #' The calculation is performed in square meters using the formula:
@@ -328,34 +374,52 @@ BA_Calculator <- function(data, dbh_col) {
   return(BA_m2)
 }
 
-#' Detect Dominant Tree Species
+#' Dominant Tree Species Detection in Forest Stands Based on Basal Area
 #'
-#' This function detects the dominant tree species in a stand based on basal area. If more than 50% of the
-#' stand's basal area is made up of one species, it is considered the dominant species.
+#' This function identifies the dominant tree species in a forest stand and classifies the stand as either "Pure" or
+#' "Mixed" based on basal area accumulation. The classification of the stand as "Pure" is based on the condition that
+#' one species contributes more than 50% of the total basal area in the stand. If no species exceeds this threshold,
+#' the stand is classified as "Mixed". The dominant species is identified as the species with the highest basal area
+#' percentage if the stand is "Pure". For "Mixed" stands, the dominant species is classified as "other broadleaf/coniferous".
 #'
 #' @param data A data frame containing tree data with a column for species and basal area.
-#' @return A character vector containing the type of stand ("Pure" or "Mixed") and the dominant species or "Mixed" if no species exceeds 50% of the basal area.
+#' @param BA_col The name of the column in the data frame representing basal area (e.g., "Sum_BA_m2").
+#' @param specie_col The name of the column in the data frame representing tree species (e.g., "specie").
+#'
+#' @return A character vector containing:
+#' \item{Pure_Mixed_Stands}{The type of stand: "Pure" if a single species dominates with more than 50% of the total
+#' basal area, "Mixed" otherwise.}
+#' \item{DomTreeSpecies}{The name of the dominant species if the stand is "Pure", or "other broadleaf/coniferous"
+#' if the stand is "Mixed".}
+#'
+#' @details
+#' To classify the plot as "Pure" or "Mixed", the function calculates the total basal area of the stand and
+#' determines the percentage of basal area contributed by each species. If any species exceeds 50% of the total basal area,
+#' it is considered the dominant species, and the stand is classified as "Pure". In cases where no species exceeds
+#' 50%, the stand is classified as "Mixed". For mixed stands, the dominant tree species is labeled as "other broadleaf/coniferous"
+#' to represent the mixed composition of the stand.
+#'
 #' @examples
-#' data <- data.frame(specie = c("Pine", "Oak", "Birch"),Sum_BA_m2 = c(30, 20, 5))
-#' results <- DomTreeSpeciesDetection(data)
+#' data <- data.frame(specie_col = c("Pine", "Oak", "Birch"), BA_col = c(30, 20, 5))
+#' results <- DominantTreeByPlot(data=data, BA_col="BA_col", specie_col="specie_col")
 #' print(results)
+#'
 #' @export
-DomTreeSpeciesDetection <- function(data) {
-  # Check if 'specie' column is missing
-  if (!"specie" %in% colnames(data)) {
-    stop("Column 'specie' is missing from the data.")
+DominantTreeByPlot <- function(data, BA_col, specie_col) {
+  # Check if specified columns are present in the data
+  if (!BA_col %in% colnames(data)) {
+    stop(paste("Column", BA_col, "is missing from the data."))
+  }
+  if (!specie_col %in% colnames(data)) {
+    stop(paste("Column", specie_col, "is missing from the data."))
   }
 
-  # Check if 'Sum_BA_m2' column is missing
-  if (!"Sum_BA_m2" %in% colnames(data)) {
-    stop("Column 'Sum_BA_m2' is missing from the data.")
-  }
   # Calculate percentage of Basal Area
-  total_BA <- sum(data$Sum_BA_m2, na.rm = TRUE)
-  data$per <- (data$Sum_BA_m2 / total_BA) * 100
+  total_BA <- sum(data[[BA_col]], na.rm = TRUE)
+  data$per <- (data[[BA_col]] / total_BA) * 100
 
   # Find the dominant species
-  max_BA_species <- data[which.max(data$per), "specie"]
+  max_BA_species <- data[which.max(data$per), specie_col]
   dominant_species <- ifelse(max(data$per, na.rm = TRUE) > 50, max_BA_species, "Mixed")
 
   # Determine stand type and dominant species
@@ -367,8 +431,7 @@ DomTreeSpeciesDetection <- function(data) {
 }
 
 
-
-#' Apply Stem Volume Calculator and Forest Management Interventions
+#' Stem Volume Calculation for Multiple Plots and Forest Management Practices
 #'
 #' This function calculates stem volume, basal area, and identifies dominant tree species
 #' based on forest inventory data. It also provides summaries at the forest management intervention
@@ -432,26 +495,24 @@ DomTreeSpeciesDetection <- function(data) {
 #' print(results)
 #' @export
 Apply_StemVolumeCalculator <- function(data, ForManInt_option, ForManInt, plot_option, plot_col, plot_area, dbh_col, th_col, specie_col) {
-
-  # Check if the necessary columns are included in the dataset
+  # Check if ForManInt is included in the dataset and set default if not
   if (ForManInt_option == "No") {
     data[[ForManInt]] <- "No_ForManInt"
   }
+    # Check if plot information is included in the dataset and set default if not
   if (plot_option == "No") {
     data[[plot_col]] <- "1"
   }
-
+    # Select the columns within the dataset
   required_columns <- c(ForManInt, plot_col, dbh_col, th_col, specie_col)
   missing_columns <- setdiff(required_columns, colnames(data))
   if (length(missing_columns) > 0) {
     stop(paste("The following columns are missing in the dataset:", paste(missing_columns, collapse = ", ")))
   }
-
   # Select and rename relevant columns
   data <- data %>%
     dplyr::select(all_of(c(plot_col, dbh_col, th_col, specie_col, ForManInt))) %>%
     rename(plot = all_of(plot_col), dbh = all_of(dbh_col), th = all_of(th_col), specie = all_of(specie_col))
-
   # Stem Volume Calculation
   data$vol_dm3 <- NA
   num_rows <- nrow(data)
@@ -460,7 +521,6 @@ Apply_StemVolumeCalculator <- function(data, ForManInt_option, ForManInt, plot_o
     result <- StemVolumeCalculator(data = raw_data, dbh_col = "dbh", th_col = "th", specie_col = "specie")
     data[i, "vol_dm3"] <- result
   }
-
   # Summarize Volume per Plot
   output_vol <- data %>%
     group_by(plot) %>%
@@ -472,29 +532,31 @@ Apply_StemVolumeCalculator <- function(data, ForManInt_option, ForManInt, plot_o
     data.frame()
 
   output_vol <- output_vol %>% mutate(across(where(is.character), as.factor))
-
-  # BA Calculation
+  # Basal area (m2) Calculation - step1
   for (i in 1:num_rows) {
     raw_data <- data[i, ]
     result <- BA_Calculator(raw_data, "dbh")
     data[i, "BA_m2"] <- result
   }
-
   data <- data %>% mutate(across(where(is.character), as.factor))
-
-  # Dominant Tree Species Detection
-  aa <- data %>%
+   # Basal area (m2) Calculation step2
+    aa <- data %>%
     group_by(across(all_of(c("plot", "specie")))) %>%
     summarise(Sum_BA_m2 = sum(BA_m2, na.rm = TRUE), .groups = "drop")
-
-  add <- aa %>%
-    group_by(plot) %>%
-    do({
-      result <- DomTreeSpeciesDetection(.)
-      tibble(Pure_Mixed_Stands = result[1], DomTreeSpecies = result[2])
-    }) %>%
-    ungroup()
-
+   # Dominant Tree Species detection
+    add <- aa %>%
+      group_by(plot) %>%
+      do({
+        result <- DominantTreeByPlot(., BA_col = "Sum_BA_m2", specie_col = "specie")
+        tibble(Pure_Mixed_Stands = result[[1]], DomTreeSpecies = result[[2]])
+      }) %>%
+      ungroup()
+    # Data Set organization
+    output_plot <- left_join(output_vol, add, by = "plot") %>%
+      select(ForManInt, everything()) %>%
+      mutate(across(where(is.numeric), ~ round(., 2))) %>%
+      mutate(ID = row_number()) %>%
+      select(ID, everything())
   # Forest Management Intervention Summary
   output_ForManInt <- output_vol %>%
     group_by(across(all_of(c("ForManInt")))) %>%
@@ -504,24 +566,17 @@ Apply_StemVolumeCalculator <- function(data, ForManInt_option, ForManInt, plot_o
       .groups = "drop"
     ) %>%
     mutate(across(where(is.integer), as.numeric))
-
-  # Join Results and Round Numeric Columns
-  output_plot <- left_join(output_vol, add, by = "plot") %>%
-    select(ForManInt, everything()) %>%
-    mutate(across(where(is.numeric), ~ round(., 2))) %>%
-    mutate(ID = row_number()) %>%
-    select(ID, everything())
-
+ # Data Set organization
   output_ForManInt <- output_ForManInt %>%
     mutate(across(where(is.numeric), ~ round(., 2))) %>%
     mutate(ID = row_number()) %>%
     select(ID, everything())
-
+  # Return the results as two list
   return(list(output_plot, output_ForManInt))
 }
 
 
-#' Apply Carbon Stock Calculator to Forest Inventory Data
+#' Carbon Stock Calculation for Multiple Plots and Forest Management Practices
 #'
 #' This function calculates the above-ground biomass (AGB) and carbon stock (CS) for forest plots,
 #' considering forest management interventions (ForManInt) and the dominant tree species (DomTreeSpecies).
@@ -581,33 +636,27 @@ Apply_StemVolumeCalculator <- function(data, ForManInt_option, ForManInt, plot_o
 #' @import dplyr
 #' @export
 Apply_CarbonStockCalculator <- function(data, ForManInt_option, ForManInt, plot_option, plot_col, DomTreeSpecies, vol_col) {
-
   # Check if ForManInt is included in the dataset and set default if not
   if (ForManInt_option == "No") {
     data[[ForManInt]] <- "No_ForManInt"
   }
-
   # Check if plot information is included in the dataset and set default if not
   if (plot_option == "No") {
     data[[plot_col]] <- "1"
   }
-
   # Ensure required columns are present
   required_columns <- c(ForManInt, DomTreeSpecies, plot_col, vol_col)
   missing_columns <- setdiff(required_columns, colnames(data))
   if (length(missing_columns) > 0) {
     stop(paste("The following columns are missing in the dataset:", paste(missing_columns, collapse = ", ")))
   }
-
   # Prepare data for plot analysis
   output_plot <- data %>% dplyr::select(all_of(required_columns))
   colnames(output_plot) <- c("ForManInt", "DomTreeSpecies", "plot", "vol_m3_ha")
   output_plot$plot <- as.factor(output_plot$plot)
-
   # Initialize columns for AGB and CS
   output_plot$AGB_tn_ha <- NA
   output_plot$CS_tn_ha <- NA
-
   # Apply CarbonStockCalculator to each plot
   for (i in 1:nrow(output_plot)) {
     temp <- output_plot[i, , drop = FALSE]#
@@ -616,13 +665,6 @@ Apply_CarbonStockCalculator <- function(data, ForManInt_option, ForManInt, plot_
       output_plot[i, c("AGB_tn_ha", "CS_tn_ha")] <- result
     }
   }
-
-  # Round numeric values and add an ID column
-  output_plot <- output_plot %>%
-    mutate(across(where(is.numeric), ~ round(., 2))) %>%
-    mutate(ID = row_number()) %>%
-    select(ID, everything())
-
   # Summarize data by forest management intervention type
   output_ForManInt <- output_plot %>%
     group_by(across(all_of(c("ForManInt")))) %>%
@@ -633,14 +675,18 @@ Apply_CarbonStockCalculator <- function(data, ForManInt_option, ForManInt, plot_
       Mean_CS_tn_ha = mean(CS_tn_ha, na.rm = TRUE),
       .groups = "drop"
     )
+  # Data Set organization
+  output_plot <- output_plot %>%
+    mutate(across(where(is.numeric), ~ round(., 2))) %>%
+    mutate(ID = row_number()) %>%
+    select(ID, everything())
 
-  # Convert integers to numeric and round
+  # Data Set organization
   output_ForManInt <- output_ForManInt %>%
     mutate(across(where(is.integer), as.numeric)) %>%
     mutate(across(where(is.numeric), ~ round(., 2))) %>%
     mutate(ID = row_number()) %>%
     select(ID, everything())
-
-  # Return the results as a list
+  # Return the results as two list
   return(list(output_plot, output_ForManInt))
 }

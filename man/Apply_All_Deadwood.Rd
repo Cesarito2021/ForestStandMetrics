@@ -2,7 +2,7 @@
 % Please edit documentation in R/standing_lying_deadwood.R
 \name{Apply_All_Deadwood}
 \alias{Apply_All_Deadwood}
-\title{Apply Deadwood Volume Calculation for Forest Plots}
+\title{Deadwood Volume Calculation (Double Input for Diameters: Dmax and Dmin) for Multiple Plots and Forest Management Practices}
 \usage{
 Apply_All_Deadwood(
   data,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/standing_lying_deadwood.R
 \name{Apply_LyingDeadwood}
 \alias{Apply_LyingDeadwood}
-\title{Apply Lying Deadwood or Coarse Woody Debris Volume Calculation}
+\title{Deadwood Volume Calculation (Lying and CWD) for Multiple Plots and Forest Management Practices}
 \usage{
 Apply_LyingDeadwood(
   data,

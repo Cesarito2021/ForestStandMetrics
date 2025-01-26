@@ -2,7 +2,7 @@
 % Please edit documentation in R/forest_structure.R
 \name{BA_Calculator}
 \alias{BA_Calculator}
-\title{Calculate Basal Area}
+\title{Basal Area Calculation for Individual Tree Species}
 \usage{
 BA_Calculator(data, dbh_col)
 }
