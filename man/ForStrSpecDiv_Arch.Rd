@@ -34,13 +34,16 @@ The returned data frame includes:
 }
 }
 \description{
+\strong{Note:} This function is currently not accessible. To calculate structural and species diversity, please use the
+\code{ForStrSpecDiv} function instead.
+}
+\details{
 This function calculates various forest diversity indices and tree structural metrics,
 including Simpson and Shannon diversity indices for diameter at breast height (dbh),
 tree height (th), and species richness. It also computes the Gini index for basal area and
 diameter, the coefficient of variation for basal area, and the Vertical Evenness Index (VEm).
 Additionally, the function calculates the Stand Density Index (SDI).
-}
-\details{
+
 This function performs multiple calculations on a given forest inventory dataset to
 assess forest structural complexity and species diversity. The calculated indices help in
 understanding the spatial and vertical distribution of trees and their structural variability.

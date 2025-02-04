@@ -2,10 +2,7 @@
 % Please edit documentation in R/architecture.R
 \name{StemVolumeArch}
 \alias{StemVolumeArch}
-\title{This function calculates the stem volume of trees based on diameter at breast height (DBH),
-total height (TH), and the species name. The formula used for the calculation depends on the
-species, and the function supports a variety of common tree species. It is designed to be used
-in forestry analysis for estimating biomass and carbon storage potential.}
+\title{Stem Volume Architecture}
 \usage{
 StemVolumeArch(data, dbh_col, th_col, specie_col)
 }
@@ -22,6 +19,10 @@ StemVolumeArch(data, dbh_col, th_col, specie_col)
 A numeric value of the stem volume for the given species, or a message if the species is not registered.
 }
 \description{
+\strong{Note:} This function is currently not accessible. To calculate stem volume, please use the
+\code{StemVolumeCalculator} function instead.
+}
+\details{
 This function calculates the stem volume of trees based on diameter at breast height (DBH),
 total height (TH), and the species name. The formula used for the calculation depends on the
 species, and the function supports a variety of common tree species. It is designed to be used

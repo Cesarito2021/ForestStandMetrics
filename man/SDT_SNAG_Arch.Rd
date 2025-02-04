@@ -2,7 +2,7 @@
 % Please edit documentation in R/architecture.R
 \name{SDT_SNAG_Arch}
 \alias{SDT_SNAG_Arch}
-\title{Deadwood Volume Calculation for Individual Components (Lying and CWD)}
+\title{Deadwood Volume Calculation for Individual Components (Standing and Snag)}
 \usage{
 SDT_SNAG_Arch(
   data,
@@ -35,6 +35,10 @@ A numeric vector with the calculated volume(s) in cubic meters, depending on the
 - "both" returns the sum of both volumes.
 }
 \description{
+\strong{Note:} This function is currently not accessible. To calculate deadwood volume, please use the
+\code{SDT_SNAG_Calculator} function instead.
+}
+\details{
 This function calculates the volume of standing deadwood (SDT) or snags based on tree measurements.
 Depending on the selected option, it can compute the volume for standing deadwood, snags, or both types of deadwood.
 }

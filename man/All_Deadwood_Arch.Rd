@@ -22,6 +22,10 @@ or for the entire dataset, depending on how the function is applied.
 The result represents the total volume of deadwood for each observation.
 }
 \description{
+\strong{Note:} This function is currently not accessible. To calculate deadwood volume, please use the
+\code{All_Deadwood_Calculator} function instead.
+}
+\details{
 This function calculates the total volume of deadwood (including LDT, SDT, CWD, Snags, and Stumps)
 using Lombardi's formula. The formula requires tree height, maximum diameter, and
 minimum diameter measurements to estimate the volume of deadwood in cubic meters.

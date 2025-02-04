@@ -35,6 +35,10 @@ If "cwd" is chosen, it returns the volume of coarse woody debris.
 If "both" is selected, it returns the sum of both volumes.
 }
 \description{
+\strong{Note:} This function is currently not accessible. To calculate deadwood volume, please use the
+\code{LDT_CWD_Calculator} function instead.
+}
+\details{
 This function calculates the volume of deadwood for either lying deadwood (LDT), coarse woody debris (CWD), or both.
 The calculation uses input tree measurements such as total height (TH), diameter at breast height (DBH),
 total length of coarse woody debris (L_tot), and diameter at half the length (Dhalf). Depending on the selected option,

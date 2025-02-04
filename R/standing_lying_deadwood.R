@@ -90,7 +90,7 @@ SDT_SNAG_Calculator <- function(data, TH_tot_col, DBH_col, L_tot_col, Dhalf_col,
 #' All_Deadwood_Calculator(data_multiple, H_Len_col = "H_Len", D_max_col = "D_max", D_min_col = "D_min")
 #' @export
 All_Deadwood_Calculator <- function(data, H_Len_col, D_max_col, D_min_col) {
-  All_Deadwood_Arch(data, H_Len_colL, D_max_col, D_min_col)
+  All_Deadwood_Arch(data, H_Len_col, D_max_col, D_min_col)
 }
 
 #' Deadwood Volume Calculation (Lying and CWD) for Multiple Plots and Forest Management Practices
