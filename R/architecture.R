@@ -663,7 +663,7 @@ All_Deadwood_Arch <- function(data, H_Len_col = NULL, D_max_col = NULL, D_min_co
 #' @import ForestStandMetrics
 # Note: no @export tag here.
 # Function to process GrowingStock model
-#
+#' @export
 process_growing_stock <- function(data, input) {
   columns <- c(input$I1_ForManInt_col, input$I1_plot_col, input$I1_height_col, input$I1_dbh_col, input$I1_specie_col)
   data_subset <- subset_data(data, columns)
@@ -709,6 +709,7 @@ process_growing_stock <- function(data, input) {
 #'
 # Note: no @export tag here.
 # Function to process CarbonStock model
+#' @export
 process_carbon_stock <- function(data, input) {
   columns <- c(input$I2_ForManInt_col, input$I2_plot_col, input$I2_dom_col, input$I2_vol_col)
   data_subset <- subset_data(data, columns)
@@ -758,6 +759,7 @@ process_carbon_stock <- function(data, input) {
 #' results <- process_lying_deadwood(data, input)
 #'
 # Note: no @export tag here.
+#' @export
 process_lying_deadwood <- function(data, input) {
   columns <- c(input$I3_ForManInt_col, input$I3_plot_col, input$I3_L_tot_col, input$I3_Dhalf_col, input$I3_TH_tot_col, input$I3_DBH_col)
   data_subset <- subset_data(data, columns)
@@ -808,6 +810,7 @@ process_lying_deadwood <- function(data, input) {
 #' results <- process_standing_deadwood(data, input)
 #'
 # Note: no @export tag here.
+#' @export
 process_standing_deadwood <- function(data, input) {
   columns <- c(input$I4_ForManInt_col, input$I4_plot_col, input$I4_L_tot_col, input$I4_Dhalf_col, input$I4_TH_tot_col, input$I4_DBH_col)
   data_subset <- subset_data(data, columns)
@@ -855,6 +858,7 @@ process_standing_deadwood <- function(data, input) {
 #' results <- process_all_deadwood(data, input)
 #'
 # Note: no @export tag here.
+#' @export
 process_all_deadwood <- function(data, input) {
   columns <- c(input$I5_ForManInt_col, input$I5_plot_col, input$I5_L_col, input$I5_Dmax_col, input$I5_Dmin_col)
   data_subset <- subset_data(data, columns)
@@ -902,6 +906,7 @@ process_all_deadwood <- function(data, input) {
 #' results <- process_forest_diversity(data, input)
 #'
 # Note: no @export tag here.
+#' @export
 process_forest_diversity <- function(data, input) {
   columns <- c(input$I51_ForManInt_col, input$I51_plot_col, input$I51_height_col, input$I51_dbh_col, input$I51_specie_col)
   data_subset <- subset_data(data, columns)
