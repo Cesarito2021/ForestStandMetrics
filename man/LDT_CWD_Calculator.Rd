@@ -30,9 +30,9 @@ for the calculation.}
 }
 \value{
 A numeric vector with the calculated volume(s) in cubic meters, depending on the specified option.
-If "ldt" is chosen, the function returns the volume of lying deadwood.
-If "cwd" is chosen, it returns the volume of coarse woody debris.
-If "both" is selected, it returns the sum of both volumes.
+        If "ldt" is chosen, the function returns the volume of lying deadwood.
+        If "cwd" is chosen, it returns the volume of coarse woody debris.
+        If "both" is selected, it returns the sum of both volumes.
 }
 \description{
 This function calculates the volume of deadwood for either lying deadwood (LDT), coarse woody debris (CWD), or both.

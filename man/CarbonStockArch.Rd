@@ -22,8 +22,8 @@ A named vector with Above-Ground Biomass (AGB) and Carbon Stock (CS) in tons.
 If the typology is not registered, it returns an error message.
 }
 \description{
-\strong{Note:} This function is currently not accessible. To calculate carbon stock, please use the
-\code{CarbonStockCalculator} function instead.
+**Note:** This function is currently not accessible. To calculate carbon stock, please use the
+`CarbonStockCalculator` function instead.
 }
 \details{
 This function calculates the Above-Ground Biomass (AGB) and Carbon Stock (CS)

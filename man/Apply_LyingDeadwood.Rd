@@ -25,16 +25,16 @@ Additional parameters for the volume calculations, such as L_tot and Dhalf, are 
 
 \item{ForManInt_option}{A character string ("Yes" or "No") indicating whether forest management intervention
 data is available in the dataset. Defaults to "No" if not provided. If "Yes", the column specified in
-the \code{ForManInt} argument will be used to group the results.}
+the `ForManInt` argument will be used to group the results.}
 
 \item{ForManInt}{A character string representing the name of the column in the dataset that specifies the
-forest management intervention (e.g., thinning, clearcut). Used if \code{ForManInt_option} is "Yes".}
+forest management intervention (e.g., thinning, clearcut). Used if `ForManInt_option` is "Yes".}
 
 \item{plot_option}{A character string ("Yes" or "No") indicating whether plot-level information is available.
 Defaults to "No" if not provided. If "Yes", the data will be grouped by plots and summarized accordingly.}
 
 \item{plot_col}{A character string representing the name of the column in the dataset that specifies the plot identifier.
-Used if \code{plot_option} is "Yes".}
+Used if `plot_option` is "Yes".}
 
 \item{LDT_CWD_option}{A character string specifying which type of deadwood to calculate ("ldt" for Lying Deadwood or
 "cwd" for Coarse Woody Debris). The corresponding calculation will be applied based on this option.}
@@ -68,9 +68,9 @@ by forest management interventions.
 }
 \details{
 This function allows for the calculation of volumes of Lying Deadwood (LDT) or Coarse Woody Debris (CWD)
-based on tree attributes, and can group results by plot or forest management intervention type. The specific
-calculation for LDT or CWD depends on the user-specified option (\code{LDT_CWD_option}).
-The volume per hectare is calculated by considering the area of the plot.
+  based on tree attributes, and can group results by plot or forest management intervention type. The specific
+  calculation for LDT or CWD depends on the user-specified option (`LDT_CWD_option`).
+  The volume per hectare is calculated by considering the area of the plot.
 }
 \examples{
 # Example 1: Using "ldt" option

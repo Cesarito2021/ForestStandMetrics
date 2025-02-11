@@ -626,10 +626,10 @@ All_Deadwood_Arch <- function(data, H_Len_col = NULL, D_max_col = NULL, D_min_co
 }
 
 
-#' @name process_growing_stock
-#' @title Process Growing Stock Model
+#'  process_growing_stock
+#' Process Growing Stock Model
 #'
-#' @description Processes growing stock data by subsetting relevant columns and applying the stem volume calculator.
+#' Processes growing stock data by subsetting relevant columns and applying the stem volume calculator.
 #'
 #' @param data A `data.frame` containing forest inventory data.
 #' @param input A list containing column names and parameters required for processing.
@@ -677,10 +677,10 @@ process_growing_stock <- function(data, input) {
   return(results)
 }
 
-#' @name process_carbon_stock
-#' @title Process Carbon Stock Model
+#'  process_carbon_stock
+#'  Process Carbon Stock Model
 #'
-#' @description Processes carbon stock data by subsetting relevant columns and applying the carbon stock calculator.
+#'  Processes carbon stock data by subsetting relevant columns and applying the carbon stock calculator.
 #'
 #' @param data A `data.frame` containing forest inventory data.
 #' @param input A list containing column names and parameters required for processing.
@@ -722,10 +722,10 @@ process_carbon_stock <- function(data, input) {
   return(results)
 }
 
-#' @name process_lying_deadwood
-#' @title Process Lying Deadwood Data
+#'  process_lying_deadwood
+#'  Process Lying Deadwood Data
 #'
-#' @description Processes lying deadwood data by subsetting relevant columns and applying the deadwood estimation model.
+#' Processes lying deadwood data by subsetting relevant columns and applying the deadwood estimation model.
 #'
 #' @param data A `data.frame` containing forest inventory data.
 #' @param input A list containing column names and parameters required for processing.
@@ -773,10 +773,10 @@ process_lying_deadwood <- function(data, input) {
   return(results)
 }
 
-#' @name process_standing_deadwood
-#' @title Process Standing Deadwood Data
+#' process_standing_deadwood
+#' Process Standing Deadwood Data
 #'
-#' @description Processes standing deadwood data by subsetting relevant columns and applying the deadwood estimation model.
+#' Processes standing deadwood data by subsetting relevant columns and applying the deadwood estimation model.
 #'
 #' @param data A `data.frame` containing forest inventory data.
 #' @param input A list containing column names and parameters required for processing.
@@ -824,10 +824,10 @@ process_standing_deadwood <- function(data, input) {
   return(results)
 }
 
-#' @name process_all_deadwood
-#' @title Process All Deadwood Data
+#' process_all_deadwood
+#' Process All Deadwood Data
 #'
-#' @description Processes deadwood data by subsetting relevant columns and applying the deadwood estimation model.
+#' Processes deadwood data by subsetting relevant columns and applying the deadwood estimation model.
 #'
 #' @param data A `data.frame` containing forest inventory data.
 #' @param input A list containing column names and parameters required for processing.
@@ -872,10 +872,10 @@ process_all_deadwood <- function(data, input) {
   return(results)
 }
 
-#' @name process_forest_diversity
-#' @title Forest Structural and Species Diversity Analysis
+#' process_forest_diversity
+#' Forest Structural and Species Diversity Analysis
 #'
-#' @description Processes forest inventory data to assess structural and species diversity.
+#' Processes forest inventory data to assess structural and species diversity.
 #'
 #' @param data A `data.frame` containing forest inventory data.
 #' @param input A list containing column names and parameters required for processing.

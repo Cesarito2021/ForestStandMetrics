@@ -19,8 +19,8 @@ StemVolumeArch(data, dbh_col, th_col, specie_col)
 A numeric value of the stem volume for the given species, or a message if the species is not registered.
 }
 \description{
-\strong{Note:} This function is currently not accessible. To calculate stem volume, please use the
-\code{StemVolumeCalculator} function instead.
+**Note:** This function is currently not accessible. To calculate stem volume, please use the
+`StemVolumeCalculator` function instead.
 }
 \details{
 This function calculates the stem volume of trees based on diameter at breast height (DBH),

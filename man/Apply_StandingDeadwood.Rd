@@ -23,15 +23,15 @@ Apply_StandingDeadwood(
 Additional parameters for SDT or Snag calculations (L_tot, Dhalf, etc.) are required as well.}
 
 \item{ForManInt_option}{A character string ("Yes" or "No") indicating whether forest management intervention
-is considered in the dataset. Defaults to "No" if not provided. If "Yes", the column specified in \code{ForManInt} is used to group results.}
+is considered in the dataset. Defaults to "No" if not provided. If "Yes", the column specified in `ForManInt` is used to group results.}
 
 \item{ForManInt}{A character string representing the name of the column in the dataset that specifies the
-forest management intervention (e.g., thinning, clearcut). Used if \code{ForManInt_option} is "Yes".}
+forest management intervention (e.g., thinning, clearcut). Used if `ForManInt_option` is "Yes".}
 
 \item{plot_option}{A character string ("Yes" or "No") indicating whether plot-level information is available in the dataset. Defaults to "No" if not provided.
 If "Yes", the data will be grouped by plot and summarized accordingly.}
 
-\item{plot_col}{A character string representing the name of the column in the dataset that specifies the plot identifier. Used if \code{plot_option} is "Yes".}
+\item{plot_col}{A character string representing the name of the column in the dataset that specifies the plot identifier. Used if `plot_option` is "Yes".}
 
 \item{SDT_SNAG_option}{A character string specifying whether to calculate the volume for Standing Deadwood ("sdt") or Snag ("snag").
 The corresponding calculation will be applied based on this option.}
@@ -59,9 +59,9 @@ Additionally, the function provides plot-level and forest management interventio
 }
 \details{
 This function calculates the volume of Standing Deadwood (SDT) or Snags based on the provided tree attributes.
-The calculation differs for SDT and Snags, with specific parameters required for each. For SDT, height and DBH are used,
-while Snag volume requires additional parameters like L_tot and Dhalf. The function can group results by plot or
-forest management intervention based on the user-specified options.
+  The calculation differs for SDT and Snags, with specific parameters required for each. For SDT, height and DBH are used,
+  while Snag volume requires additional parameters like L_tot and Dhalf. The function can group results by plot or
+  forest management intervention based on the user-specified options.
 }
 \examples{
 # Example 1: Using the "sdt" option

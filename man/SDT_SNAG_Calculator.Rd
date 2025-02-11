@@ -30,9 +30,9 @@ total height (TH), diameter at breast height (DBH), total length of snags (L_tot
 }
 \value{
 A numeric vector with the calculated volume(s) in cubic meters, depending on the specified option:
-- "sdt" returns the volume of standing deadwood.
-- "snag" returns the volume of snags.
-- "both" returns the sum of both volumes.
+        - "sdt" returns the volume of standing deadwood.
+        - "snag" returns the volume of snags.
+        - "both" returns the sum of both volumes.
 }
 \description{
 This function calculates the volume of standing deadwood (SDT) or snags based on tree measurements.

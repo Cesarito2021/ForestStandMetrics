@@ -25,13 +25,13 @@ management interventions and plot information.}
 ("Yes" or "No"). If "Yes", the function will use the intervention data in calculations.}
 
 \item{ForManInt}{A string representing the name of the column containing forest management intervention
-data (e.g., "Thinning", "Clearcut"). This column is used when \code{ForManInt_option} is "Yes".}
+data (e.g., "Thinning", "Clearcut"). This column is used when `ForManInt_option` is "Yes".}
 
 \item{plot_option}{A string specifying whether plot data is provided ("Yes" or "No"). If "Yes", the
 function will include plot-level summaries in the output.}
 
 \item{plot_col}{A string specifying the name of the column representing the plot identifier. Used
-when \code{plot_option} is "Yes".}
+when `plot_option` is "Yes".}
 
 \item{plot_area}{A numeric value representing the total area of the plot in hectares. This is used
 for calculating plot-level data, such as volume and basal area per hectare.}
@@ -46,10 +46,10 @@ in centimeters.}
 \value{
 A list of two data frames:
 \itemize{
-\item \code{output_plot}: A data frame with plot-level data, including total stem volume, basal area,
-dominant tree species, and other metrics calculated per hectare.
-\item \code{output_ForManInt}: A data frame summarizing forest management interventions (e.g., thinning)
-and their impact on forest structure, including volume changes, basal area modifications, and species composition.
+  \item \code{output_plot}: A data frame with plot-level data, including total stem volume, basal area,
+  dominant tree species, and other metrics calculated per hectare.
+  \item \code{output_ForManInt}: A data frame summarizing forest management interventions (e.g., thinning)
+  and their impact on forest structure, including volume changes, basal area modifications, and species composition.
 }
 }
 \description{
@@ -61,9 +61,9 @@ analysis of inventory data and intervention strategies.
 }
 \details{
 This function is designed to support forest management practices by providing both plot-level
-and intervention-level summaries. It is useful for assessing the effectiveness of forest interventions
-and understanding the structural changes in forest stands. The calculations include stem volume, basal area,
-and dominant species identification, enabling comprehensive forest assessments.
+  and intervention-level summaries. It is useful for assessing the effectiveness of forest interventions
+  and understanding the structural changes in forest stands. The calculations include stem volume, basal area,
+  and dominant species identification, enabling comprehensive forest assessments.
 }
 \examples{
 data <- as.data.frame(list(

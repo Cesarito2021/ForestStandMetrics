@@ -18,8 +18,8 @@ for tree height (H_Len), maximum diameter (D_max), and minimum diameter (D_min).
 }
 \value{
 A numeric vector containing the calculated deadwood volume(s) in cubic meters for each tree
-or for the entire dataset, depending on how the function is applied.
-The result represents the total volume of deadwood for each observation.
+        or for the entire dataset, depending on how the function is applied.
+        The result represents the total volume of deadwood for each observation.
 }
 \description{
 This function calculates the total volume of deadwood (including LDT, SDT, CWD, Snags, and Stumps)

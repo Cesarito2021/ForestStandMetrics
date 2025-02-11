@@ -15,7 +15,7 @@ DominantTreeByPlot(data, BA_col, specie_col)
 }
 \value{
 A character vector containing:
-\item{Pure_Mixed_Stands}{The type of stand: "Pure" if a single species dominates with more than 50\% of the total
+\item{Pure_Mixed_Stands}{The type of stand: "Pure" if a single species dominates with more than 50% of the total
 basal area, "Mixed" otherwise.}
 \item{DomTreeSpecies}{The name of the dominant species if the stand is "Pure", or "other broadleaf/coniferous"
 if the stand is "Mixed".}
@@ -23,15 +23,15 @@ if the stand is "Mixed".}
 \description{
 This function identifies the dominant tree species in a forest stand and classifies the stand as either "Pure" or
 "Mixed" based on basal area accumulation. The classification of the stand as "Pure" is based on the condition that
-one species contributes more than 50\% of the total basal area in the stand. If no species exceeds this threshold,
+one species contributes more than 50% of the total basal area in the stand. If no species exceeds this threshold,
 the stand is classified as "Mixed". The dominant species is identified as the species with the highest basal area
 percentage if the stand is "Pure". For "Mixed" stands, the dominant species is classified as "other broadleaf/coniferous".
 }
 \details{
 To classify the plot as "Pure" or "Mixed", the function calculates the total basal area of the stand and
-determines the percentage of basal area contributed by each species. If any species exceeds 50\% of the total basal area,
+determines the percentage of basal area contributed by each species. If any species exceeds 50% of the total basal area,
 it is considered the dominant species, and the stand is classified as "Pure". In cases where no species exceeds
-50\%, the stand is classified as "Mixed". For mixed stands, the dominant tree species is labeled as "other broadleaf/coniferous"
+50%, the stand is classified as "Mixed". For mixed stands, the dominant tree species is labeled as "other broadleaf/coniferous"
 to represent the mixed composition of the stand.
 }
 \examples{

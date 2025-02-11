@@ -23,19 +23,17 @@ in centimeters.}
 }
 \value{
 A data frame containing the calculated diversity and structural indices for the forest plot.
-The returned data frame includes:
-\itemize{
-\item Simpson's diversity index (for dbh, th, and species richness)
-\item Shannon's diversity index (for dbh, th, and species richness)
-\item Gini index for basal area and diameter
-\item Coefficient of variation for basal area
-\item Vertical Evenness Index (VEm)
-\item Stand Density Index (SDI)
-}
+  The returned data frame includes:
+  - Simpson's diversity index (for dbh, th, and species richness)
+  - Shannon's diversity index (for dbh, th, and species richness)
+  - Gini index for basal area and diameter
+  - Coefficient of variation for basal area
+  - Vertical Evenness Index (VEm)
+  - Stand Density Index (SDI)
 }
 \description{
-\strong{Note:} This function is currently not accessible. To calculate structural and species diversity, please use the
-\code{ForStrSpecDiv} function instead.
+**Note:** This function is currently not accessible. To calculate structural and species diversity, please use the
+`ForStrSpecDiv` function instead.
 }
 \details{
 This function calculates various forest diversity indices and tree structural metrics,
@@ -45,9 +43,9 @@ diameter, the coefficient of variation for basal area, and the Vertical Evenness
 Additionally, the function calculates the Stand Density Index (SDI).
 
 This function performs multiple calculations on a given forest inventory dataset to
-assess forest structural complexity and species diversity. The calculated indices help in
-understanding the spatial and vertical distribution of trees and their structural variability.
-These metrics are useful for forest management, ecological assessments, and biodiversity studies.
+  assess forest structural complexity and species diversity. The calculated indices help in
+  understanding the spatial and vertical distribution of trees and their structural variability.
+  These metrics are useful for forest management, ecological assessments, and biodiversity studies.
 }
 \examples{
 # Example usage:

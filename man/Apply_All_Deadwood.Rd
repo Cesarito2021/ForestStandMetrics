@@ -21,16 +21,16 @@ Apply_All_Deadwood(
 columns such as tree height, maximum and minimum diameter, and forest management intervention information.}
 
 \item{ForManInt_option}{A string ("Yes" or "No") indicating whether forest management intervention
-is considered in the dataset. If "Yes", the column specified in \code{ForManInt} is used to group results.}
+is considered in the dataset. If "Yes", the column specified in `ForManInt` is used to group results.}
 
 \item{ForManInt}{A string representing the name of the column in the dataset that specifies the
-forest management intervention (e.g., thinning, clearcut, etc.). Used only if \code{ForManInt_option} is "Yes".}
+forest management intervention (e.g., thinning, clearcut, etc.). Used only if `ForManInt_option` is "Yes".}
 
 \item{plot_option}{A string ("Yes" or "No") indicating if the dataset contains multiple plots.
 Defaults to "No" if not provided. If "Yes", data will be grouped by plot and summarized accordingly.}
 
 \item{plot_col}{A string representing the name of the column in the dataset that specifies the plot identifier.
-Used only if \code{plot_option} is "Yes".}
+Used only if `plot_option` is "Yes".}
 
 \item{H_Len_col}{A string representing the name of the column in the dataset that specifies the total length of the tree (used in volume calculation).}
 
@@ -53,9 +53,9 @@ at both the plot level and the forest management intervention level, including v
 }
 \details{
 This function calculates the volume of deadwood for forest plots using tree attributes such as
-maximum and minimum diameters, total height (if required), and forest management intervention (if available).
-The volume is computed for each tree, and results can be summarized by plot and/or forest management intervention.
-The function also provides per-hectare volume estimates, depending on the plot size specified.
+  maximum and minimum diameters, total height (if required), and forest management intervention (if available).
+  The volume is computed for each tree, and results can be summarized by plot and/or forest management intervention.
+  The function also provides per-hectare volume estimates, depending on the plot size specified.
 }
 \examples{
 # Example: Applying deadwood calculations

@@ -23,15 +23,13 @@ in centimeters.}
 }
 \value{
 A data frame containing the calculated diversity and structural indices for the forest plot.
-The returned data frame includes:
-\itemize{
-\item Simpson's diversity index (for dbh, th, and species richness)
-\item Shannon's diversity index (for dbh, th, and species richness)
-\item Gini index for basal area and diameter
-\item Coefficient of variation for basal area
-\item Vertical Evenness Index (VEm)
-\item Stand Density Index (SDI)
-}
+  The returned data frame includes:
+  - Simpson's diversity index (for dbh, th, and species richness)
+  - Shannon's diversity index (for dbh, th, and species richness)
+  - Gini index for basal area and diameter
+  - Coefficient of variation for basal area
+  - Vertical Evenness Index (VEm)
+  - Stand Density Index (SDI)
 }
 \description{
 This function calculates various forest diversity indices and tree structural metrics,
@@ -42,9 +40,9 @@ Additionally, the function calculates the Stand Density Index (SDI).
 }
 \details{
 This function performs multiple calculations on a given forest inventory dataset to
-assess forest structural complexity and species diversity. The calculated indices help in
-understanding the spatial and vertical distribution of trees and their structural variability.
-These metrics are useful for forest management, ecological assessments, and biodiversity studies.
+  assess forest structural complexity and species diversity. The calculated indices help in
+  understanding the spatial and vertical distribution of trees and their structural variability.
+  These metrics are useful for forest management, ecological assessments, and biodiversity studies.
 }
 \examples{
 # Example usage:
