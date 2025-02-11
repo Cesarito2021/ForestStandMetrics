@@ -625,58 +625,6 @@ All_Deadwood_Arch <- function(data, H_Len_col = NULL, D_max_col = NULL, D_min_co
   return(volume_m3)
 }
 
-#' @name DataProcessingFunctions
-#' @title Helper Functions for Data Processing in Shiny App
-#'
-#' @description A set of functions to load, subset, and rename columns in datasets, designed for use in a Shiny application.
-#'
-#' @param file_path The file path to the dataset (Excel format expected).
-#' @param data A dataframe containing the data to be processed.
-#' @param columns A character vector specifying the columns to retain in the subset.
-#' @param new_names A character vector with new column names (must match the number of columns in `data`).
-#'
-#' @importFrom openxlsx read.xlsx
-#'
-#' @return The functions return processed data:
-#'
-#' - `load_data()`: Returns a dataframe loaded from an Excel file.
-#' - `subset_data()`: Returns a dataframe with only the specified columns.
-#' - `rename_columns()`: Returns a dataframe with renamed columns.
-#'
-#' @examples
-#' # Load data
-#' data <- load_data("C:/Users/calvi/OneDrive/Desktop/App_Forwards/app/Data/Example.xlsx")
-#'
-#' # Subset specific columns
-#' subset <- subset_data(data, c("TreeDiameter", "TreeHeight"))
-#'
-#' # Rename columns
-#' renamed_data <- rename_columns(subset, c("NewName1", "NewName2"))
-#'
-#' @import shiny
-#' @import dplyr
-#' @export
-# Function to load data from file
-load_data <- function(file_path) {
-  req(file_path)
-  data <- openxlsx::read.xlsx(file_path)
-  return(data)
-}
-
-# Function to subset data based on selected columns
-subset_data <- function(data, columns) {
-  data_subset <- data[, columns, drop = FALSE]
-  return(data_subset)
-}
-
-# Function to rename columns
-rename_columns <- function(data, new_names) {
-  if (length(new_names) != ncol(data)) {
-    stop("Length of new_names must match number of columns in data")
-  }
-  colnames(data) <- new_names
-  return(data)
-}
 
 #' @name process_growing_stock
 #' @title Process Growing Stock Model
@@ -714,7 +662,7 @@ rename_columns <- function(data, new_names) {
 #' results <- process_growing_stock(data, input)
 #'
 #' @import ForestStandMetrics
-#' @export
+# Note: no @export tag here.
 # Function to process GrowingStock model
 #
 process_growing_stock <- function(data, input) {
@@ -761,8 +709,7 @@ process_growing_stock <- function(data, input) {
 #'
 #' results <- process_carbon_stock(data, input)
 #'
-#' @export
-
+# Note: no @export tag here.
 # Function to process CarbonStock model
 process_carbon_stock <- function(data, input) {
   columns <- c(input$I2_ForManInt_col, input$I2_plot_col, input$I2_dom_col, input$I2_vol_col)
@@ -813,7 +760,7 @@ process_carbon_stock <- function(data, input) {
 #'
 #' results <- process_lying_deadwood(data, input)
 #'
-#' @export
+# Note: no @export tag here.
 process_lying_deadwood <- function(data, input) {
   columns <- c(input$I3_ForManInt_col, input$I3_plot_col, input$I3_L_tot_col, input$I3_Dhalf_col, input$I3_TH_tot_col, input$I3_DBH_col)
   data_subset <- subset_data(data, columns)
@@ -864,8 +811,7 @@ process_lying_deadwood <- function(data, input) {
 #'
 #' results <- process_standing_deadwood(data, input)
 #'
-#' @export
-
+# Note: no @export tag here.
 process_standing_deadwood <- function(data, input) {
   columns <- c(input$I4_ForManInt_col, input$I4_plot_col, input$I4_L_tot_col, input$I4_Dhalf_col, input$I4_TH_tot_col, input$I4_DBH_col)
   data_subset <- subset_data(data, columns)
@@ -913,8 +859,7 @@ process_standing_deadwood <- function(data, input) {
 #'
 #' results <- process_all_deadwood(data, input)
 #'
-#' @export
-
+# Note: no @export tag here.
 process_all_deadwood <- function(data, input) {
   columns <- c(input$I5_ForManInt_col, input$I5_plot_col, input$I5_L_col, input$I5_Dmax_col, input$I5_Dmin_col)
   data_subset <- subset_data(data, columns)
@@ -962,8 +907,7 @@ process_all_deadwood <- function(data, input) {
 #'
 #' results <- process_forest_diversity(data, input)
 #'
-#' @export
-
+# Note: no @export tag here.
 process_forest_diversity <- function(data, input) {
   columns <- c(input$I51_ForManInt_col, input$I51_plot_col, input$I51_height_col, input$I51_dbh_col, input$I51_specie_col)
   data_subset <- subset_data(data, columns)
