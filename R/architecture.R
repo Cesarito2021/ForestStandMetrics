@@ -918,6 +918,93 @@ process_forest_diversity <- function(data, input) {
   )
   return(results)
 }
+#' Load_data
+#'  Helper Functions for Data Processing in Shiny App
+#'
+#' A set of functions to load, subset, and rename columns in datasets, designed for use in a Shiny application.
+#'
+#' @param file_path The file path to the dataset (Excel format expected).
+#' @param data A dataframe containing the data to be processed.
+#' @param columns A character vector specifying the columns to retain in the subset.
+#' @param new_names A character vector with new column names (must match the number of columns in `data`).
+#'
+#' @importFrom openxlsx read.xlsx
+#'
+#' @return The functions return processed data:
+#'
+#' - `load_data()`: Returns a dataframe loaded from an Excel file.
+#' - `subset_data()`: Returns a dataframe with only the specified columns.
+#' - `rename_columns()`: Returns a dataframe with renamed columns.
+#'
+#' @examples
+#' # Load data
+#' data <- load_data("C:/Users/calvi/OneDrive/Desktop/App_Forwards/app/Data/Example.xlsx")
+#'
+#' # Subset specific columns
+#' subset <- subset_data(data, c("TreeDiameter", "TreeHeight"))
+#'
+#' # Rename columns
+#' renamed_data <- rename_columns(subset, c("NewName1", "NewName2"))
+#'
+#' @import shiny
+#' @import dplyr
+#' @export
+# Function to load data from file
+load_data <- function(file_path) {
+  req(file_path)
+  data <- openxlsx::read.xlsx(file_path)
+  return(data)
+}
+
+#' subset_data
+#'  second Helper Functions for Data Processing in Shiny App
+#'
+#' A set of functions to load, subset, and rename columns in datasets, designed for use in a Shiny application.
+#'
+#' @param file_path The file path to the dataset (Excel format expected).
+#' @param data A dataframe containing the data to be processed.
+#' @param columns A character vector specifying the columns to retain in the subset.
+#' @param new_names A character vector with new column names (must match the number of columns in `data`).
+#'
+#' @importFrom openxlsx read.xlsx
+#'
+#' @return The functions return processed data:
+#'
+#' - `subset_data()`: Returns a dataframe with only the specified columns.
+#'
+#'
+#' @export
+# Function to subset data based on selected columns
+subset_data <- function(data, columns) {
+  data_subset <- data[, columns, drop = FALSE]
+  return(data_subset)
+}
+#' rename_columns
+#' third helper Functions for Data Processing in Shiny App
+#'
+#' A set of functions to load, subset, and rename columns in datasets, designed for use in a Shiny application.
+#'
+#' @param file_path The file path to the dataset (Excel format expected).
+#' @param data A dataframe containing the data to be processed.
+#' @param columns A character vector specifying the columns to retain in the subset.
+#' @param new_names A character vector with new column names (must match the number of columns in `data`).
+#'
+#' @importFrom openxlsx read.xlsx
+#'
+#' @return The functions return processed data:
+#'
+#' - `rename_columns()`: Returns a dataframe with renamed columns.
+#'
+#'
+#' @export
+# Function to rename columns
+rename_columns <- function(data, new_names) {
+  if (length(new_names) != ncol(data)) {
+    stop("Length of new_names must match number of columns in data")
+  }
+  colnames(data) <- new_names
+  return(data)
+}
 
 #-------------------------------------------------------------------------------------
 

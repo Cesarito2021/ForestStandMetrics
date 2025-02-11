@@ -11,7 +11,8 @@ Imports:
   tidyverse,
   ggplot2,
   dplyr,
-  tidyr
+  tidyr,
+  shiny
 Depends: R (>= 3.6.0)
 Encoding: UTF-8
 LazyData: true
