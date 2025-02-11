@@ -21,16 +21,16 @@ Apply_ForStrSpecDiv(
 columns such as tree diameter (dbh), tree height (th), species, and forest management intervention information.}
 
 \item{ForManInt_option}{A string ("Yes" or "No") indicating whether forest management intervention
-is considered in the dataset. If "Yes", the column specified in \code{ForManInt} is used to group results.}
+is considered in the dataset. If "Yes", the column specified in `ForManInt` is used to group results.}
 
 \item{ForManInt}{A string representing the name of the column in the dataset that specifies the
-forest management intervention (e.g., thinning, clearcut, etc.). Used only if \code{ForManInt_option} is "Yes".}
+forest management intervention (e.g., thinning, clearcut, etc.). Used only if `ForManInt_option` is "Yes".}
 
 \item{plot_option}{A string ("Yes" or "No") indicating if the dataset contains multiple plots.
 Defaults to "No" if not provided. If "Yes", data will be grouped by plot and summarized accordingly.}
 
 \item{plot_col}{A string representing the name of the column in the dataset that specifies the plot identifier.
-Used only if \code{plot_option} is "Yes".}
+Used only if `plot_option` is "Yes".}
 
 \item{dbh_col}{A string representing the name of the column in the dataset that specifies the diameter at breast height (dbh) of the trees.}
 
@@ -56,10 +56,10 @@ allowing for comprehensive analysis of forest structure and species diversity ac
 }
 \details{
 This function calculates various forest structure and species diversity metrics for each plot.
-The main metric calculated is basal area (BA), which is derived from the diameter at breast height (dbh) of each tree.
-Additionally, species diversity is measured, providing insights into the distribution of species across plots.
-Results can be grouped by forest management interventions (if specified), and per-hectare metrics are calculated based on
-the area of the plot provided in \code{plot_area}. The function provides summaries at both the plot level and the forest management intervention level.
+  The main metric calculated is basal area (BA), which is derived from the diameter at breast height (dbh) of each tree.
+  Additionally, species diversity is measured, providing insights into the distribution of species across plots.
+  Results can be grouped by forest management interventions (if specified), and per-hectare metrics are calculated based on
+  the area of the plot provided in `plot_area`. The function provides summaries at both the plot level and the forest management intervention level.
 }
 \examples{
 # Example usage with test data:

@@ -16,8 +16,8 @@ between tree density and diameter.}
 
 \item{type}{A character string specifying the type of forest stand. Options are:
 \itemize{
-\item "even-aged" for even-aged stands (default),
-\item "uneven-aged" for uneven-aged stands.
+  \item "even-aged" for even-aged stands (default),
+  \item "uneven-aged" for uneven-aged stands.
 }}
 }
 \value{
@@ -33,9 +33,9 @@ uneven-aged stands.
 The formula for SDI is:
 \deqn{SDI = (N * (QMD^b))}, where:
 \itemize{
-\item N is the tree density (trees per hectare),
-\item QMD is the quadratic mean diameter (cm),
-\item b is a scaling exponent, typically set to 1.605 (default).
+  \item N is the tree density (trees per hectare),
+  \item QMD is the quadratic mean diameter (cm),
+  \item b is a scaling exponent, typically set to 1.605 (default).
 }
 
 The SDI provides an estimate of the stand's density, which helps evaluate its competition and growth potential.

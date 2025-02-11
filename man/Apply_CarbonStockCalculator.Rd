@@ -19,29 +19,29 @@ Apply_CarbonStockCalculator(
 species information, and optionally, forest management interventions and plot identifiers.}
 
 \item{ForManInt_option}{A character string indicating whether forest management intervention data is included ("Yes"/"No").
-If "Yes", the function will consider the column specified in the \code{ForManInt} argument for calculations.}
+If "Yes", the function will consider the column specified in the `ForManInt` argument for calculations.}
 
-\item{ForManInt}{A character string representing the name of the column in \code{data} that contains information on forest management
-interventions (e.g., thinning, clearcut). This column is used if \code{ForManInt_option} is "Yes".}
+\item{ForManInt}{A character string representing the name of the column in `data` that contains information on forest management
+interventions (e.g., thinning, clearcut). This column is used if `ForManInt_option` is "Yes".}
 
 \item{plot_option}{A character string indicating whether plot information is included in the data ("Yes"/"No"). If "Yes",
 the function will process the data at the plot level and include plot-level summaries in the output.}
 
-\item{plot_col}{A character string representing the name of the column in \code{data} that holds the plot identifiers.
-This column is used if \code{plot_option} is "Yes".}
+\item{plot_col}{A character string representing the name of the column in `data` that holds the plot identifiers.
+This column is used if `plot_option` is "Yes".}
 
-\item{DomTreeSpecies}{A character string representing the name of the column in \code{data} that contains the dominant tree species information.
+\item{DomTreeSpecies}{A character string representing the name of the column in `data` that contains the dominant tree species information.
 This column helps identify species-specific carbon stock and biomass.}
 
-\item{vol_col}{A character string representing the name of the column in \code{data} that contains the tree volume (in cubic meters per hectare).
+\item{vol_col}{A character string representing the name of the column in `data` that contains the tree volume (in cubic meters per hectare).
 The volume is used in the calculation of AGB and CS.}
 }
 \value{
 A list containing two data frames:
-\itemize{
-\item \code{output_plot}: The original dataset with added columns for calculated above-ground biomass (AGB) and carbon stock (CS) at the plot level.
-\item \code{output_ForManInt}: A summarized dataset with mean values of AGB and CS grouped by forest management intervention type.
-}
+  \itemize{
+    \item \code{output_plot}: The original dataset with added columns for calculated above-ground biomass (AGB) and carbon stock (CS) at the plot level.
+    \item \code{output_ForManInt}: A summarized dataset with mean values of AGB and CS grouped by forest management intervention type.
+  }
 }
 \description{
 This function calculates the above-ground biomass (AGB) and carbon stock (CS) for forest plots,
@@ -51,8 +51,8 @@ The function can handle different types of forest management interventions and p
 }
 \details{
 This function calculates AGB using standard allometric equations and then estimates the carbon stock (CS) based on AGB.
-The function can compute these metrics for each plot, and also group and summarize by forest management intervention type.
-This is useful for understanding the effects of different forest management strategies on carbon sequestration and biomass accumulation.
+  The function can compute these metrics for each plot, and also group and summarize by forest management intervention type.
+  This is useful for understanding the effects of different forest management strategies on carbon sequestration and biomass accumulation.
 }
 \examples{
 # Example dataset
