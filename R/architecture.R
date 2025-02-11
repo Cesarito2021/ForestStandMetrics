@@ -636,8 +636,7 @@ All_Deadwood_Arch <- function(data, H_Len_col = NULL, D_max_col = NULL, D_min_co
 #'
 #' @return A processed dataset with calculated stem volume estimates.
 #'
-#' @importFrom dplyr select rename
-#' @importFrom somepackage Apply_StemVolumeCalculator
+#' @import dplyr
 #'
 #' @examples
 #' data <- data.frame(
@@ -687,8 +686,7 @@ process_growing_stock <- function(data, input) {
 #'
 #' @return A processed dataset with estimated carbon stock values.
 #'
-#' @importFrom dplyr select rename
-#' @importFrom somepackage Apply_CarbonStockCalculator
+#' @import dplyr
 #'
 #' @examples
 #' data <- data.frame(
@@ -732,8 +730,7 @@ process_carbon_stock <- function(data, input) {
 #'
 #' @return A processed dataset with estimated lying deadwood values.
 #'
-#' @importFrom dplyr select rename
-#' @importFrom somepackage Apply_LyingDeadwood
+#' @import dplyr
 #'
 #' @examples
 #' data <- data.frame(
@@ -783,8 +780,7 @@ process_lying_deadwood <- function(data, input) {
 #'
 #' @return A processed dataset with estimated standing deadwood values.
 #'
-#' @importFrom dplyr select rename
-#' @importFrom somepackage Apply_StandingDeadwood_MP_BEST
+#' @importFrom dplyr
 #'
 #' @examples
 #' data <- data.frame(
@@ -834,8 +830,7 @@ process_standing_deadwood <- function(data, input) {
 #'
 #' @return A processed dataset with estimated deadwood values.
 #'
-#' @importFrom dplyr select rename
-#' @importFrom somepackage Apply_All_Deadwood
+#' @importFrom dplyr
 #'
 #' @examples
 #' data <- data.frame(
@@ -882,8 +877,7 @@ process_all_deadwood <- function(data, input) {
 #'
 #' @return A processed dataset with calculated forest diversity metrics.
 #'
-#' @importFrom dplyr select rename
-#' @importFrom somepackage Apply_ForStrSpecDiv
+#' @import dplyr
 #'
 #' @examples
 #' data <- data.frame(
