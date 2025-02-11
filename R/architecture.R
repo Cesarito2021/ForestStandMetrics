@@ -624,3 +624,357 @@ All_Deadwood_Arch <- function(data, H_Len_col = NULL, D_max_col = NULL, D_min_co
 
   return(volume_m3)
 }
+
+#' @name DataProcessingFunctions
+#' @title Helper Functions for Data Processing in Shiny App
+#'
+#' @description A set of functions to load, subset, and rename columns in datasets, designed for use in a Shiny application.
+#'
+#' @param file_path The file path to the dataset (Excel format expected).
+#' @param data A dataframe containing the data to be processed.
+#' @param columns A character vector specifying the columns to retain in the subset.
+#' @param new_names A character vector with new column names (must match the number of columns in `data`).
+#'
+#' @importFrom openxlsx read.xlsx
+#'
+#' @return The functions return processed data:
+#'
+#' - `load_data()`: Returns a dataframe loaded from an Excel file.
+#' - `subset_data()`: Returns a dataframe with only the specified columns.
+#' - `rename_columns()`: Returns a dataframe with renamed columns.
+#'
+#' @examples
+#' # Load data
+#' data <- load_data("C:/Users/calvi/OneDrive/Desktop/App_Forwards/app/Data/Example.xlsx")
+#'
+#' # Subset specific columns
+#' subset <- subset_data(data, c("TreeDiameter", "TreeHeight"))
+#'
+#' # Rename columns
+#' renamed_data <- rename_columns(subset, c("NewName1", "NewName2"))
+#'
+#' @import shiny
+#' @import dplyr
+#' @export
+# Function to load data from file
+load_data <- function(file_path) {
+  req(file_path)
+  data <- openxlsx::read.xlsx(file_path)
+  return(data)
+}
+
+# Function to subset data based on selected columns
+subset_data <- function(data, columns) {
+  data_subset <- data[, columns, drop = FALSE]
+  return(data_subset)
+}
+
+# Function to rename columns
+rename_columns <- function(data, new_names) {
+  if (length(new_names) != ncol(data)) {
+    stop("Length of new_names must match number of columns in data")
+  }
+  colnames(data) <- new_names
+  return(data)
+}
+
+#' @name process_growing_stock
+#' @title Process Growing Stock Model
+#'
+#' @description Processes growing stock data by subsetting relevant columns and applying the stem volume calculator.
+#'
+#' @param data A `data.frame` containing forest inventory data.
+#' @param input A list containing column names and parameters required for processing.
+#'
+#' @return A processed dataset with calculated stem volume estimates.
+#'
+#' @importFrom dplyr select rename
+#' @importFrom somepackage Apply_StemVolumeCalculator
+#'
+#' @examples
+#' data <- data.frame(
+#'   ForManInt = c(1, 2, 1),
+#'   plot = c("A", "B", "C"),
+#'   th = c(15, 20, 25),
+#'   dbh = c(30, 40, 50),
+#'   specie = c("Fagus", "Quercus", "Pinus")
+#' )
+#'
+#' input <- list(
+#'   I1_ForManInt_col = "ForManInt",
+#'   I1_plot_col = "plot",
+#'   I1_height_col = "th",
+#'   I1_dbh_col = "dbh",
+#'   I1_specie_col = "specie",
+#'   I1_Provide_ForManInt = "some_value",
+#'   I1_Provide_plot = "some_value",
+#'   I1_plot_size_col = 500
+#' )
+#'
+#' results <- process_growing_stock(data, input)
+#'
+#' @import ForestStandMetrics
+#' @export
+# Function to process GrowingStock model
+#
+process_growing_stock <- function(data, input) {
+  columns <- c(input$I1_ForManInt_col, input$I1_plot_col, input$I1_height_col, input$I1_dbh_col, input$I1_specie_col)
+  data_subset <- subset_data(data, columns)
+  data_subset <- rename_columns(data_subset, c("ForManInt", "plot", "th", "dbh", "specie"))
+
+  results <- Apply_StemVolumeCalculator(
+    data_subset, input$I1_Provide_ForManInt, "ForManInt", input$I1_Provide_plot,
+    plot_col = "plot", plot_area = input$I1_plot_size_col, dbh_col = "dbh", th_col = "th", specie_col = "specie"
+  )
+  return(results)
+}
+
+#' @name process_carbon_stock
+#' @title Process Carbon Stock Model
+#'
+#' @description Processes carbon stock data by subsetting relevant columns and applying the carbon stock calculator.
+#'
+#' @param data A `data.frame` containing forest inventory data.
+#' @param input A list containing column names and parameters required for processing.
+#'
+#' @return A processed dataset with estimated carbon stock values.
+#'
+#' @importFrom dplyr select rename
+#' @importFrom somepackage Apply_CarbonStockCalculator
+#'
+#' @examples
+#' data <- data.frame(
+#'   ForManInt = c(1, 2, 1),
+#'   plot = c("A", "B", "C"),
+#'   dom_col = c(10, 15, 20),
+#'   vol_m3_ha = c(200, 300, 400)
+#' )
+#'
+#' input <- list(
+#'   I2_ForManInt_col = "ForManInt",
+#'   I2_plot_col = "plot",
+#'   I2_dom_col = "dom_col",
+#'   I2_vol_col = "vol_m3_ha",
+#'   I2_Provide_ForManInt = "some_value",
+#'   I2_Provide_plot = "some_value"
+#' )
+#'
+#' results <- process_carbon_stock(data, input)
+#'
+#' @export
+
+# Function to process CarbonStock model
+process_carbon_stock <- function(data, input) {
+  columns <- c(input$I2_ForManInt_col, input$I2_plot_col, input$I2_dom_col, input$I2_vol_col)
+  data_subset <- subset_data(data, columns)
+  data_subset <- rename_columns(data_subset, c("ForManInt", "plot", "dom_col", "vol_m3_ha"))
+
+  results <- Apply_CarbonStockCalculator(
+    data_subset, input$I2_Provide_ForManInt, "ForManInt", input$I2_Provide_plot, "plot", "dom_col", "vol_m3_ha"
+  )
+  return(results)
+}
+
+#' @name process_lying_deadwood
+#' @title Process Lying Deadwood Data
+#'
+#' @description Processes lying deadwood data by subsetting relevant columns and applying the deadwood estimation model.
+#'
+#' @param data A `data.frame` containing forest inventory data.
+#' @param input A list containing column names and parameters required for processing.
+#'
+#' @return A processed dataset with estimated lying deadwood values.
+#'
+#' @importFrom dplyr select rename
+#' @importFrom somepackage Apply_LyingDeadwood
+#'
+#' @examples
+#' data <- data.frame(
+#'   ForManInt = c(1, 2, 1),
+#'   plot = c("A", "B", "C"),
+#'   L_tot_col = c(10, 15, 20),
+#'   Dhalf_col = c(0.3, 0.4, 0.5),
+#'   TH_tot_col = c(1.5, 2.0, 2.5),
+#'   DBH_col = c(25, 30, 35)
+#' )
+#'
+#' input <- list(
+#'   I3_ForManInt_col = "ForManInt",
+#'   I3_plot_col = "plot",
+#'   I3_L_tot_col = "L_tot_col",
+#'   I3_Dhalf_col = "Dhalf_col",
+#'   I3_TH_tot_col = "TH_tot_col",
+#'   I3_DBH_col = "DBH_col",
+#'   I3_Provide_ForManInt = "some_value",
+#'   I3_Provide_plot = "some_value",
+#'   I3_LDT_CWD_option = "some_option",
+#'   I3_plot_size_col = "some_value"
+#' )
+#'
+#' results <- process_lying_deadwood(data, input)
+#'
+#' @export
+process_lying_deadwood <- function(data, input) {
+  columns <- c(input$I3_ForManInt_col, input$I3_plot_col, input$I3_L_tot_col, input$I3_Dhalf_col, input$I3_TH_tot_col, input$I3_DBH_col)
+  data_subset <- subset_data(data, columns)
+  data_subset <- rename_columns(data_subset, c("ForManInt", "plot", "L_tot_col", "Dhalf_col", "TH_tot_col", "DBH_col"))
+
+  results <- Apply_LyingDeadwood(
+    data_subset, input$I3_Provide_ForManInt, "ForManInt", input$I3_Provide_plot, "plot",
+    input$I3_LDT_CWD_option, "L_tot_col", "Dhalf_col", "TH_tot_col", "DBH_col", input$I3_plot_size_col
+  )
+  return(results)
+}
+
+#' @name process_standing_deadwood
+#' @title Process Standing Deadwood Data
+#'
+#' @description Processes standing deadwood data by subsetting relevant columns and applying the deadwood estimation model.
+#'
+#' @param data A `data.frame` containing forest inventory data.
+#' @param input A list containing column names and parameters required for processing.
+#'
+#' @return A processed dataset with estimated standing deadwood values.
+#'
+#' @importFrom dplyr select rename
+#' @importFrom somepackage Apply_StandingDeadwood_MP_BEST
+#'
+#' @examples
+#' data <- data.frame(
+#'   ForManInt = c(1, 2, 1),
+#'   plot = c("A", "B", "C"),
+#'   L_tot_col = c(10, 15, 20),
+#'   Dhalf_col = c(0.3, 0.4, 0.5),
+#'   TH_tot_col = c(1.5, 2.0, 2.5),
+#'   DBH_col = c(25, 30, 35)
+#' )
+#'
+#' input <- list(
+#'   I4_ForManInt_col = "ForManInt",
+#'   I4_plot_col = "plot",
+#'   I4_L_tot_col = "L_tot_col",
+#'   I4_Dhalf_col = "Dhalf_col",
+#'   I4_TH_tot_col = "TH_tot_col",
+#'   I4_DBH_col = "DBH_col",
+#'   I4_Provide_ForManInt = "some_value",
+#'   I4_Provide_plot = "some_value",
+#'   I4_SDT_SNAG_option = "some_option",
+#'   I4_plot_size_col = "some_value"
+#' )
+#'
+#' results <- process_standing_deadwood(data, input)
+#'
+#' @export
+
+process_standing_deadwood <- function(data, input) {
+  columns <- c(input$I4_ForManInt_col, input$I4_plot_col, input$I4_L_tot_col, input$I4_Dhalf_col, input$I4_TH_tot_col, input$I4_DBH_col)
+  data_subset <- subset_data(data, columns)
+  data_subset <- rename_columns(data_subset, c("ForManInt", "plot", "L_tot_col", "Dhalf_col", "TH_tot_col", "DBH_col"))
+
+  results <- Apply_StandingDeadwood_MP_BEST(
+    data_subset, input$I4_Provide_ForManInt, "ForManInt", input$I4_Provide_plot, "plot",
+    input$I4_SDT_SNAG_option, "L_tot_col", "Dhalf_col", "TH_tot_col", "DBH_col", input$I4_plot_size_col
+  )
+  return(results)
+}
+
+#' @name process_all_deadwood
+#' @title Process All Deadwood Data
+#'
+#' @description Processes deadwood data by subsetting relevant columns and applying the deadwood estimation model.
+#'
+#' @param data A `data.frame` containing forest inventory data.
+#' @param input A list containing column names and parameters required for processing.
+#'
+#' @return A processed dataset with estimated deadwood values.
+#'
+#' @importFrom dplyr select rename
+#' @importFrom somepackage Apply_All_Deadwood
+#'
+#' @examples
+#' data <- data.frame(
+#'   ForManInt = c(1, 2, 1),
+#'   plot = c("A", "B", "C"),
+#'   L_tot_col = c(10, 15, 20),
+#'   Dmax_col = c(0.5, 0.6, 0.7),
+#'   Dmin_col = c(0.3, 0.4, 0.5)
+#' )
+#'
+#' input <- list(
+#'   I5_ForManInt_col = "ForManInt",
+#'   I5_plot_col = "plot",
+#'   I5_L_col = "L_tot_col",
+#'   I5_Dmax_col = "Dmax_col",
+#'   I5_Dmin_col = "Dmin_col",
+#'   I5_Provide_ForManInt = "some_value",
+#'   I5_Provide_plot = "some_value",
+#'   I5_plot_size_col = "some_value"
+#' )
+#'
+#' results <- process_all_deadwood(data, input)
+#'
+#' @export
+
+process_all_deadwood <- function(data, input) {
+  columns <- c(input$I5_ForManInt_col, input$I5_plot_col, input$I5_L_col, input$I5_Dmax_col, input$I5_Dmin_col)
+  data_subset <- subset_data(data, columns)
+  data_subset <- rename_columns(data_subset, c("ForManInt", "plot", "L_tot_col", "Dmax_col", "Dmin_col"))
+
+  results <- Apply_All_Deadwood(
+    data_subset, input$I5_Provide_ForManInt, "ForManInt", input$I5_Provide_plot, "plot",
+    "L_tot_col", "Dmax_col", "Dmin_col", input$I5_plot_size_col
+  )
+  return(results)
+}
+
+#' @name process_forest_diversity
+#' @title Forest Structural and Species Diversity Analysis
+#'
+#' @description Processes forest inventory data to assess structural and species diversity.
+#'
+#' @param data A `data.frame` containing forest inventory data.
+#' @param input A list containing column names and parameters required for processing.
+#'
+#' @return A processed dataset with calculated forest diversity metrics.
+#'
+#' @importFrom dplyr select rename
+#' @importFrom somepackage Apply_ForStrSpecDiv
+#'
+#' @examples
+#' data <- data.frame(
+#'   ForManInt = c(1, 2, 1),
+#'   plot = c("A", "B", "C"),
+#'   th = c(15, 20, 10),
+#'   dbh = c(30, 25, 40),
+#'   specie = c("Fagus", "Quercus", "Acer")
+#' )
+#'
+#' input <- list(
+#'   I51_ForManInt_col = "ForManInt",
+#'   I51_plot_col = "plot",
+#'   I51_height_col = "th",
+#'   I51_dbh_col = "dbh",
+#'   I51_specie_col = "specie",
+#'   I51_Provide_ForManInt = "some_value",
+#'   I51_Provide_plot = "some_value",
+#'   I51_plot_size_col = "some_value"
+#' )
+#'
+#' results <- process_forest_diversity(data, input)
+#'
+#' @export
+
+process_forest_diversity <- function(data, input) {
+  columns <- c(input$I51_ForManInt_col, input$I51_plot_col, input$I51_height_col, input$I51_dbh_col, input$I51_specie_col)
+  data_subset <- subset_data(data, columns)
+  data_subset <- rename_columns(data_subset, c("ForManInt", "plot", "th", "dbh", "specie"))
+
+  results <- Apply_ForStrSpecDiv(
+    data_subset, input$I51_Provide_ForManInt, "ForManInt", input$I51_Provide_plot, "plot",
+    "dbh", "th", "specie", input$I51_plot_size_col
+  )
+  return(results)
+}
+
+#-------------------------------------------------------------------------------------
+
