@@ -1,10 +1,8 @@
 Package: ForestStandMetrics
-Title: Tools for Forest Structure and Diversity Analysis
+Title: Forest Stand Metrics Calculation
 Version: 0.1.0
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: This package provides tools for analyzing forest structure,
-    deadwood volume, and species diversity metrics.
+Authors@R: person("Cesar Ivan Alvites Diaz", "cesar.alvites@example.com", role = c("aut", "cre"))
+Description: A package for calculating forest stand metrics. This package provides functions to analyze and compute various metrics related to forest stands.
 License: GPL (>= 3)
 Authors: Cesar Alvites <calvites1990@gmail.com> [aut, cre]
 Imports:
